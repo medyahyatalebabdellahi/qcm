@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM محرر الإدارة - منهجية موريتانيا</title>
+<style>
+  :root{
+    --vert-fonce:#0a5c36;
+    --bleu:#0d5ca8;
+    --jaune:#ffc400;
+    --blanc:#ffffff;
+    --gris:#f3f5f7;
+    --rouge:#c0392b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"Segoe UI", Tahoma, Arial, sans-serif;
+    background:var(--gris);
+    margin:0;
+    padding:0;
+    color:#1c2b2d;
+  }
+  .stripe{
+    height:10px;
+    background:linear-gradient(90deg, var(--vert-fonce) 0 20%, var(--blanc) 20% 40%, var(--bleu) 40% 60%, var(--jaune) 60% 80%, var(--blanc) 80% 100%);
+  }
+  header{
+    background:var(--vert-fonce);
+    color:var(--blanc);
+    padding:24px 16px;
+    text-align:center;
+  }
+  header h1{
+    margin:0 0 6px 0;
+    font-size:1.6em;
+  }
+  header p{
+    margin:0;
+    color:var(--jaune);
+    font-weight:bold;
+  }
+  .container{
+    max-width:820px;
+    margin:0 auto;
+    padding:20px 16px 60px;
+  }
+  .info-bar{
+    background:var(--blanc);
+    border-right:6px solid var(--bleu);
+    border-radius:8px;
+    padding:14px 18px;
+    margin:20px 0;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+  }
+  .info-bar b{color:var(--vert-fonce);}
+  .question-card{
+    background:var(--blanc);
+    border-radius:10px;
+    padding:18px 20px;
+    margin-bottom:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    border-top:5px solid var(--bleu);
+  }
+  .q-number{
+    display:inline-block;
+    background:var(--jaune);
+    color:var(--vert-fonce);
+    font-weight:bold;
+    border-radius:50%;
+    width:32px;
+    height:32px;
+    line-height:32px;
+    text-align:center;
+    margin-left:10px;
+  }
+  .q-text{
+    font-weight:bold;
+    font-size:1.05em;
+    color:#0c2a1f;
+  }
+  .hint{
+    color:var(--bleu);
+    font-size:.85em;
+    margin-right:42px;
+    display:block;
+    margin-bottom:8px;
+  }
+  .options{
+    margin-top:10px;
+    margin-right:42px;
+  }
+  .option-label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 10px;
+    border-radius:6px;
+    margin-bottom:6px;
+    cursor:pointer;
+    transition:background .15s;
+  }
+  .option-label:hover{
+    background:#eef6f2;
+  }
+  .option-label input{
+    width:18px;
+    height:18px;
+    accent-color:var(--bleu);
+  }
+  .option-label.correct-answer{
+    background:#e4f7ea;
+    border:1px solid #2e9e5b;
+  }
+  .option-label.wrong-answer{
+    background:#fdeceb;
+    border:1px solid var(--rouge);
+  }
+  .btn-row{
+    text-align:center;
+    margin:30px 0;
+  }
+  button{
+    font-family:inherit;
+    font-size:1.05em;
+    font-weight:bold;
+    padding:12px 30px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    margin:0 6px;
+    transition:transform .1s, box-shadow .1s;
+  }
+  button:hover{transform:translateY(-2px); box-shadow:0 4px 10px rgba(0,0,0,.2);}
+  #submitBtn{
+    background:var(--jaune);
+    color:var(--vert-fonce);
+  }
+  #resetBtn{
+    background:var(--bleu);
+    color:var(--blanc);
+  }
+  #resultBox{
+    display:none;
+    background:var(--vert-fonce);
+    color:var(--blanc);
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+    margin-bottom:24px;
+    box-shadow:0 3px 10px rgba(0,0,0,.2);
+  }
+  #resultBox h2{margin:0 0 8px 0; color:var(--jaune);}
+  #resultBox p{margin:4px 0;}
+  footer{
+    background:var(--vert-fonce);
+    color:var(--blanc);
+    text-align:center;
+    padding:14px;
+    font-size:.85em;
+  }
+</style>
+</head>
+<body>
+
+<div class="stripe"></div>
+<header>
+  <h1>اختبار تدريبي QCM — مسابقة محرر الإدارة</h1>
+  <p>منهجية موريتانيا | التنظيم القضائي — الإجراءات المدنية — المسطرة الجنائية — حقوق وواجبات الموظف</p>
+</header>
+<div class="stripe"></div>
+
+<div class="container">
+
+  <div class="info-bar">
+    <p><b>طريقة التصحيح:</b> كل إجابة صحيحة مُختارة = <b>0.125+</b> نقطة، وكل إجابة خاطئة مُختارة = <b>0.25-</b> نقطة.
+    بعض الأسئلة لها إجابة واحدة صحيحة وبعضها له إجابتان — اقرأ التعليمة الموجودة تحت كل سؤال بعناية.</p>
+  </div>
+
+  <div id="resultBox">
+    <h2>النتيجة</h2>
+    <p id="scoreText"></p>
+    <p id="detailText"></p>
+  </div>
+
+  <div id="quizContainer"></div>
+
+  <div class="btn-row">
+    <button id="submitBtn" onclick="correctQuiz()">تصحيح الإجابات</button>
+    <button id="resetBtn" onclick="resetQuiz()">إعادة المحاولة</button>
+  </div>
+
+</div>
+
+<div class="stripe"></div>
+<footer>QCM تدريبي لأغراض المراجعة الذاتية — مُعد اعتمادا على مضامين وثائقك المرفوعة</footer>
+
+<script>
+const questions = [
+{q:"حدّد نظام درجات التقاضي المعتمد في التنظيم القضائي الموريتاني؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"درجة واحدة فقط دون إمكانية الطعن", c:false},
+  {t:"درجتان (ابتدائية ونهائية) مع وجود محكمة عليا تراقب صحة تطبيق القانون", c:true},
+  {t:"ثلاث درجات ابتدائية واستئنافية ونقض موضوعي", c:false},
+  {t:"أربع درجات متتالية", c:false},
+  {t:"نظام الدرجة الواحدة مع رقابة إدارية فقط", c:false}
+]},
+{q:"أي محكمة تختص بالنظر في «المخالفات» الجزائية؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"محكمة الولاية", c:false},
+  {t:"المحكمة التجارية", c:false},
+  {t:"محكمة المقاطعة", c:true},
+  {t:"محكمة الاستئناف", c:false},
+  {t:"المحكمة الجنائية", c:false}
+]},
+{q:"ما هو السقف المالي الذي تحكم في حدوده محكمة المقاطعة ابتدائيا ونهائيا (أصلا) وفق المادة 20 من ق.إ.م.ت.إ؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"100.000 أوقية", c:false},
+  {t:"500.000 أوقية", c:true},
+  {t:"1.000.000 أوقية", c:false},
+  {t:"50.000 أوقية", c:false},
+  {t:"2.000.000 أوقية", c:false}
+]},
+{q:"من يتشكل منه «محكمة المخالفات» وفق المادة 486 من قانون الإجراءات الجنائية؟", hint:"اختر إجابتين",
+ options:[
+  {t:"رئيس محكمة المقاطعة", c:true},
+  {t:"كاتب ضبط", c:true},
+  {t:"وكيل الجمهورية وجوبا", c:false},
+  {t:"مستشاران قضائيان", c:false},
+  {t:"هيئة محلفين", c:false}
+]},
+{q:"أي الغرف التالية لا تدخل ضمن التشكيلة الرسمية المنصوص عليها لمحكمة الولاية (المادة 38 من التنظيم القضائي)؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"غرفة مدنية", c:false},
+  {t:"غرفة تجارية", c:false},
+  {t:"غرفة إدارية", c:false},
+  {t:"غرفة جزائية", c:false},
+  {t:"غرفة اجتماعية مستقلة", c:true}
+]},
+{q:"الطعون المتعلقة بتعويض الأضرار التي تسببها سيارات الإدارة تدخل ضمن اختصاص:", hint:"اختر إجابة واحدة — انتبه للاستثناء الوارد في المادة 25",
+ options:[
+  {t:"الغرفة الإدارية بمحكمة الولاية", c:false},
+  {t:"الغرفة الإدارية بالمحكمة العليا", c:false},
+  {t:"الغرفة المدنية بمحكمة الولاية", c:true},
+  {t:"المحكمة التجارية", c:false},
+  {t:"محكمة المقاطعة", c:false}
+]},
+{q:"من يشكّل المحكمة التجارية وفق التنظيم القضائي؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"قاض فرد فقط", c:false},
+  {t:"قاض ومستشاران لهما صوتان تداوليان", c:true},
+  {t:"ثلاثة قضاة ومحلفون", c:false},
+  {t:"رئيس وأربعة مستشارين", c:false},
+  {t:"رئيس غرفة فقط", c:false}
+]},
+{q:"في أي حالة يجوز للمحكمة التجارية أن تبت بتشكيلة القاضي الفرد وفق المادة 27 مكررة؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"عندما تتجاوز قيمة الدين 10.000.000 أوقية أصلا", c:false},
+  {t:"في حالة الديون التجارية التي لا تتجاوز قيمتها 10.000.000 أوقية أصلا و2.000.000 أوقية محصولا", c:true},
+  {t:"في جميع القضايا التجارية دون استثناء", c:false},
+  {t:"في قضايا الإفلاس فقط", c:false},
+  {t:"لا يجوز ذلك مطلقا", c:false}
+]},
+{q:"كم عدد محاكم الشغل الموجودة حاليا في البلاد ومقارّها؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"محكمة واحدة بنواكشوط فقط", c:false},
+  {t:"محكمتان: نواكشوط ونواذيبو", c:false},
+  {t:"ثلاث محاكم: نواكشوط، نواذيبو، الزويرات", c:true},
+  {t:"أربع محاكم تشمل كيفة", c:false},
+  {t:"خمس محاكم موزعة على الولايات", c:false}
+]},
+{q:"أي القوانين التالية أنشأت محاكم جنائية خاصة؟", hint:"اختر إجابتين",
+ options:[
+  {t:"القانون المتعلق بمكافحة الفساد رقم 014-2016", c:true},
+  {t:"القانون رقم 31-2015 المجرم للعبودية والممارسات الاستعبادية", c:true},
+  {t:"القانون 12-2007 المتضمن التنظيم القضائي", c:false},
+  {t:"القانون 035-99 المتعلق بالإجراءات المدنية", c:false},
+  {t:"القانون 20-2019 المعدل للتنظيم القضائي", c:false}
+]},
+{q:"من يمثل النيابة العامة لدى المحكمة العليا؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"وكيل الجمهورية ونوابه", c:false},
+  {t:"المدعي العام لدى محكمة الاستئناف", c:false},
+  {t:"المدعي العام لدى المحكمة العليا ونوابه", c:true},
+  {t:"وزير العدل شخصيا", c:false},
+  {t:"رئيس المحكمة العليا", c:false}
+]},
+{q:"من اختصاصات «الغرف المجمعة» بالمحكمة العليا وفق المادة 22 من التنظيم القضائي؟", hint:"اختر إجابتين — احذر الخلط مع غرفة المشورة",
+ options:[
+  {t:"البت في تعارض القرارات النهائية وتناقض قرارات غرف المحكمة العليا", c:true},
+  {t:"الطعن لصالح القانون", c:true},
+  {t:"تنازع الاختصاص بين محكمتين أو أكثر", c:false},
+  {t:"مخاصمة القضاة", c:false},
+  {t:"الإحالة من محكمة إلى أخرى لدواعي الأمن", c:false}
+]},
+{q:"ما هو أجل الطعن بالاستئناف وفق المادة 168 جديدة من ق.إ.م.؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"8 أيام", c:false},
+  {t:"10 أيام", c:false},
+  {t:"15 يوما", c:true},
+  {t:"30 يوما", c:false},
+  {t:"60 يوما", c:false}
+]},
+{q:"متى يسري أجل الاستئناف بالنسبة للحكم الغيابي؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"من تاريخ صدور الحكم مباشرة", c:false},
+  {t:"من تاريخ تبليغ الحكم", c:false},
+  {t:"من انتهاء أجل الطعن بالمعارضة", c:true},
+  {t:"من تاريخ تسجيل الحكم في السجل", c:false},
+  {t:"لا يسري أي أجل", c:false}
+]},
+{q:"حدد سن الرشد الذي يخول كامل الأهلية للتقاضي وفق المادة 15 من قانون الالتزامات والعقود؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"16 سنة", c:false},
+  {t:"18 سنة", c:true},
+  {t:"20 سنة", c:false},
+  {t:"21 سنة", c:false},
+  {t:"25 سنة", c:false}
+]},
+{q:"ما هما الشرطان الواجب توفرهما في طرفي الدعوى (المدعي والمدعى عليه)؟", hint:"اختر إجابتين",
+ options:[
+  {t:"الأهلية", c:true},
+  {t:"الصفة", c:true},
+  {t:"الجنسية الموريتانية", c:false},
+  {t:"المهنة المحددة", c:false},
+  {t:"الديانة", c:false}
+]},
+{q:"وفق المادة 69 من ق.إ.م.ت.إ، بأي طريقتين يمكن تقديم الطلب الأصلي أمام المحكمة؟", hint:"اختر إجابتين",
+ options:[
+  {t:"التكليف بالحضور", c:true},
+  {t:"العريضة المشتركة", c:true},
+  {t:"الشكوى الشفهية للشرطة", c:false},
+  {t:"محضر الصلح الإداري", c:false},
+  {t:"التبليغ التلقائي", c:false}
+]},
+{q:"أي مما يلي ليس من حقوق الموظف العمومي، بل يندرج ضمن الواجبات المقيِّدة؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"حرية الرأي مع واجب التحفظ", c:false},
+  {t:"حق المساواة بين الموظفين", c:false},
+  {t:"حق التقاضي أمام المحاكم", c:false},
+  {t:"ممارسة أي عمل ربحي دون قيد", c:true},
+  {t:"الحق في التكوين", c:false}
+]},
+{q:"أي مما يلي يُعد من واجبات الموظف العمومي؟", hint:"اختر إجابتين",
+ options:[
+  {t:"احترام السلطة التسلسلية والتقيد بالتعليمات المشروعة", c:true},
+  {t:"حرية إفشاء المعلومات الإدارية متى شاء", c:false},
+  {t:"حرية الرأي المطلقة دون قيود", c:false},
+  {t:"حق التصويت في الانتخابات", c:false},
+  {t:"واجب الولاء للدولة", c:true}
+]},
+{q:"أي مما يلي ليس من «الضباط السامين» للشرطة القضائية؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"المدعون العامون لدى محاكم الاستئناف ونوابهم", c:false},
+  {t:"وكلاء الجمهورية ونوابهم", c:false},
+  {t:"قضاة التحقيق", c:false},
+  {t:"ضباط الشرطة القضائية العاديون", c:true},
+  {t:"لا شيء مما ذكر، الجميع ضباط سامون", c:false}
+]},
+{q:"من يتمتع بصفة «ضابط شرطة قضائية» بحكم القانون رغم عدم انتمائه للشرطة؟", hint:"اختر إجابتين",
+ options:[
+  {t:"والي الولاية ومساعدوه", c:true},
+  {t:"مدير الأمن الوطني", c:true},
+  {t:"كاتب الضبط", c:false},
+  {t:"الخبير القضائي", c:false},
+  {t:"المحامي", c:false}
+]},
+{q:"كم مدة تقادم الدعوى العمومية في مادة الجنايات؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"سنة واحدة", c:false},
+  {t:"3 سنوات", c:false},
+  {t:"5 سنوات", c:false},
+  {t:"10 سنوات", c:true},
+  {t:"20 سنة", c:false}
+]},
+{q:"كم مدة تقادم الدعوى العمومية في مادة المخالفات؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"سنة كاملة", c:true},
+  {t:"3 سنوات", c:false},
+  {t:"5 سنوات", c:false},
+  {t:"10 سنوات", c:false},
+  {t:"لا تتقادم", c:false}
+]},
+{q:"من بين أسباب سقوط وانقضاء الدعوى العمومية؟", hint:"اختر إجابتين",
+ options:[
+  {t:"وفاة المتهم", c:true},
+  {t:"التقادم", c:true},
+  {t:"زواج المتهم من الضحية", c:false},
+  {t:"تنازل الضحية عن حقه المدني فقط", c:false},
+  {t:"كثرة عدد الشهود", c:false}
+]},
+{q:"ما مدلول قاعدة «قلم النيابة العامة أسير ولسانها حر»؟", hint:"اختر إجابة واحدة",
+ options:[
+  {t:"النيابة العامة مستقلة تماما عن أي سلطة", c:false},
+  {t:"النيابة ملزمة بتقديم طلباتها الكتابية وفق تعليمات رؤسائها، لكنها حرة في مرافعتها الشفهية", c:true},
+  {t:"النيابة لا تستطيع الترافع شفهيا مطلقا", c:false},
+  {t:"النيابة العامة لا تخضع لأي تعليمات كتابية", c:false},
+  {t:"القلم هنا يقصد به قلم كاتب الضبط", c:false}
+]}
+];
+
+const container = document.getElementById('quizContainer');
+
+function buildQuiz(){
+  container.innerHTML = "";
+  questions.forEach((item, qi) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+    let optsHtml = "";
+    item.options.forEach((opt, oi) => {
+      optsHtml += `
+        <label class="option-label" id="label-${qi}-${oi}">
+          <input type="checkbox" id="opt-${qi}-${oi}" data-q="${qi}" data-o="${oi}">
+          <span>${opt.t}</span>
+        </label>`;
+    });
+    card.innerHTML = `
+      <div><span class="q-number">${qi+1}</span><span class="q-text">${item.q}</span></div>
+      <span class="hint">${item.hint}</span>
+      <div class="options">${optsHtml}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function correctQuiz(){
+  let score = 0;
+  let maxScore = 0;
+  let totalCorrectPicked = 0;
+  let totalWrongPicked = 0;
+
+  questions.forEach((item, qi) => {
+    item.options.forEach((opt, oi) => {
+      if(opt.c) maxScore += 0.125;
+      const input = document.getElementById(`opt-${qi}-${oi}`);
+      const label = document.getElementById(`label-${qi}-${oi}`);
+      label.classList.remove('correct-answer','wrong-answer');
+      if(input.checked){
+        if(opt.c){
+          score += 0.125;
+          totalCorrectPicked++;
+          label.classList.add('correct-answer');
+        } else {
+          score -= 0.25;
+          totalWrongPicked++;
+          label.classList.add('wrong-answer');
+        }
+      } else if(opt.c){
+        label.classList.add('correct-answer');
+      }
+      input.disabled = true;
+    });
+  });
+
+  document.getElementById('scoreText').innerText =
+    `نقطتك: ${score.toFixed(3)} من أصل ${maxScore.toFixed(3)}`;
+  document.getElementById('detailText').innerText =
+    `إجابات صحيحة مُختارة: ${totalCorrectPicked} | إجابات خاطئة مُختارة: ${totalWrongPicked}`;
+  document.getElementById('resultBox').style.display = 'block';
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+}
+
+function resetQuiz(){
+  document.getElementById('resultBox').style.display = 'none';
+  buildQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+buildQuiz();
+</script>
+
+</body>
+</html>
