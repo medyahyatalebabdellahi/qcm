@@ -1,696 +1,703 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3 اختبارات QCM - 100 سؤال</title>
-    <style>
-        :root {
-            --primary: #1b5e20;
-            --primary-light: #2e7d32;
-            --secondary: #fff9c4;
-            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #fff9c4 50%, #1b5e20 100%);
-            --text-dark: #333;
-            --text-light: #fff;
-            --correct: #c8e6c9;
-            --incorrect: #ffcdd2;
-            --easy: #a5d6a7;
-            --medium: #ffe082;
-            --hard: #ef9a9a;
-            --trap: #ce93d8;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-dark);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background-color: rgba(255, 255, 255, 0.96);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--primary);
-            padding: 30px;
-            position: relative;
-            display: none;
-            flex-direction: column;
-            max-height: 95vh;
-            overflow-y: auto;
-        }
-        .container.active { display: flex; }
-        .container::-webkit-scrollbar { width: 8px; }
-        .container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        .container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>اختبار QCM - مسابقة الضرائب 2026 - 60 دقيقة</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Cairo',sans-serif;
+  background:linear-gradient(160deg,#e8f5e9 0%,#f1f8e9 40%,#fffde7 100%);
+  color:#1b5e20;
+  line-height:1.7;
+  min-height:100vh;
+}
+.header{
+  background:linear-gradient(135deg,#2e7d32,#43a047);
+  color:#fff;
+  padding:16px 12px;
+  text-align:center;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 14px rgba(46,125,50,.35);
+  border-bottom:4px solid #c62828;
+}
+.header h1{font-size:1.3rem;margin-bottom:4px}
+.timer-box{
+  background:rgba(0,0,0,.22);
+  display:inline-block;
+  padding:5px 16px;
+  border-radius:30px;
+  font-size:1.3rem;
+  font-weight:700;
+  margin-top:5px;
+  letter-spacing:1px;
+}
+.timer-box.warning{background:#c62828;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.75}}
 
-        #home-screen { text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 40px 20px; }
-        #home-screen h1 { color: var(--primary); font-size: 2.2em; margin-bottom: 10px; }
-        #home-screen h2 { color: var(--text-dark); font-size: 1.5em; margin-bottom: 5px; }
-        #home-screen .contact { background-color: var(--secondary); padding: 12px 25px; border-radius: 50px; border: 2px solid var(--primary); font-size: 1.1em; font-weight: bold; color: var(--primary); display: inline-block; margin-bottom: 15px; }
-        .btn-group { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-        .btn-main { background-color: var(--primary); color: var(--text-light); border: none; padding: 15px 40px; font-size: 1.3em; border-radius: 10px; cursor: pointer; transition: all 0.3s ease; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.2); min-width: 200px; }
-        .btn-main:hover { background-color: var(--primary-light); transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
-        .exam-selector { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
-        .btn-exam { background-color: #fff; color: var(--primary); border: 2px solid var(--primary); padding: 12px 25px; font-size: 1.1em; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: bold; min-width: 150px; }
-        .btn-exam:hover { background-color: var(--primary); color: #fff; }
+/* معاينة الكاميرا */
+#cameraBox{
+  position:fixed;
+  top:70px;
+  left:10px;
+  width:110px;
+  height:82px;
+  border:3px solid #c62828;
+  border-radius:10px;
+  overflow:hidden;
+  z-index:90;
+  background:#000;
+  box-shadow:0 4px 12px rgba(0,0,0,.3);
+}
+#cameraBox video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform:scaleX(-1);
+}
+.camera-label{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  background:rgba(198,40,40,.85);
+  color:#fff;
+  font-size:.65rem;
+  text-align:center;
+  padding:2px 0;
+}
 
-        #summary-screen { display: none; flex-direction: column; gap: 20px; }
-        #summary-screen.active { display: flex; }
-        .summary-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-        .summary-header h2 { color: var(--primary); font-size: 1.8em; }
-        .btn-back { background-color: #555; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1em; transition: 0.3s; }
-        .btn-back:hover { background-color: #333; }
-        .summary-content { line-height: 1.8; font-size: 1.1em; text-align: justify; }
-        .summary-content h3 { color: var(--primary); margin-top: 20px; margin-bottom: 10px; border-right: 5px solid var(--primary); padding-right: 10px; }
-        .summary-content ul { padding-right: 25px; margin-bottom: 15px; }
-        .summary-content li { margin-bottom: 8px; }
+.container{max-width:880px;margin:20px auto;padding:0 12px 40px}
+.q-card{
+  background:#ffffff;
+  border-radius:12px;
+  padding:16px 18px;
+  margin-bottom:14px;
+  box-shadow:0 2px 10px rgba(46,125,50,.12);
+  border:1px solid #c8e6c9;
+  border-right:5px solid #c62828;
+}
+.q-num{
+  font-weight:700;
+  color:#2e7d32;
+  margin-bottom:6px;
+  font-size:.95rem;
+}
+.domain{
+  font-size:.78rem;
+  color:#558b2f;
+  margin-bottom:8px;
+  background:#f1f8e9;
+  display:inline-block;
+  padding:2px 10px;
+  border-radius:20px;
+}
+.options label{
+  display:block;
+  padding:9px 12px;
+  margin:5px 0;
+  background:#fffde7;
+  border-radius:8px;
+  cursor:pointer;
+  border:1px solid #fff9c4;
+  font-size:.94rem;
+  transition:.2s;
+}
+.options label:hover{
+  background:#f0f4c3;
+  border-color:#c62828;
+}
+.options input{margin-left:8px;transform:scale(1.15)}
 
-        #qcm-screen { display: none; flex-direction: column; gap: 20px; }
-        #qcm-screen.active { display: flex; }
-        .qcm-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-        .qcm-header h2 { color: var(--primary); font-size: 1.8em; }
-        .timer { background-color: #b71c1c; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 1.4em; font-weight: bold; font-family: monospace; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .timer.warning { background-color: #ff6f00; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-        .part-title { background-color: var(--primary); color: #fff; padding: 10px 15px; border-radius: 8px; margin-top: 25px; margin-bottom: 15px; font-size: 1.2em; text-align: center; }
-        .qcm-instructions { background-color: #e8f5e9; border-right: 5px solid var(--primary); padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-        .qcm-instructions h3 { margin-top: 0; color: var(--primary); }
-        .qcm-instructions ul { list-style-type: none; padding: 0; }
-        .qcm-instructions li { margin-bottom: 8px; font-weight: 500; }
-        .score-board { position: fixed; top: 20px; left: 20px; background-color: var(--primary); color: var(--text-light); padding: 15px 25px; border-radius: 10px; font-size: 1.2em; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000; display: none; }
-        .score-board.active { display: block; }
-        .question-block { background-color: #f9f9f9; border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin-bottom: 20px; transition: 0.3s; }
-        .question-block:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 5px; }
-        .question-text { font-weight: bold; font-size: 1.1em; color: var(--primary); }
-        .level-badge { padding: 3px 10px; border-radius: 15px; font-size: 0.8em; font-weight: bold; color: #fff; }
-        .level-tres-facile { background-color: #4caf50; }
-        .level-facile { background-color: #8bc34a; }
-        .level-moyen { background-color: #ffc107; color: #333; }
-        .level-difficile { background-color: #f44336; }
-        .level-tres-difficile { background-color: #9c27b0; }
-        .level-piege { background-color: #e91e63; }
-        .options { display: flex; flex-direction: column; gap: 8px; }
-        .option { display: flex; align-items: center; padding: 8px 12px; background-color: #fff; border: 1px solid #ccc; border-radius: 5px; cursor: pointer; transition: 0.2s; }
-        .option:hover { background-color: #e8f5e9; border-color: var(--primary); }
-        .option input[type="checkbox"], .option input[type="radio"] { margin-left: 10px; transform: scale(1.3); cursor: pointer; accent-color: var(--primary); }
-        .option label { cursor: pointer; width: 100%; }
-        .option.correct-highlight { background-color: var(--correct); border: 2px solid var(--primary); }
-        .option.incorrect-highlight { background-color: var(--incorrect); border: 2px solid #b71c1c; }
-        .result { margin-top: 10px; font-weight: bold; padding: 10px; border-radius: 5px; display: none; }
-        .correct { background-color: var(--correct); color: var(--primary); border: 1px solid var(--primary); }
-        .incorrect { background-color: var(--incorrect); color: #b71c1c; border: 1px solid #b71c1c; }
-        .justification { margin-top: 8px; font-weight: normal; font-size: 0.95em; color: #555; background-color: #f0f0f0; padding: 8px; border-radius: 5px; border-right: 3px solid var(--primary); }
-        .btn-submit-final { background-color: var(--primary); color: #fff; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 1.2em; font-weight: bold; margin-top: 20px; transition: 0.3s; width: 100%; max-width: 400px; align-self: center; }
-        .btn-submit-final:hover { background-color: var(--primary-light); }
+.btn-box{text-align:center;margin:30px 0}
+button{
+  font-family:'Cairo',sans-serif;
+  font-size:1.05rem;
+  padding:13px 32px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  font-weight:600;
+}
+#submitBtn{
+  background:#2e7d32;
+  color:#fff;
+}
+#submitBtn:disabled{
+  background:#a5d6a7;
+  cursor:not-allowed;
+  opacity:.7;
+}
+#printBtn{
+  background:#c62828;
+  color:#fff;
+  margin-right:10px;
+  display:none;
+}
 
-        #result-screen { display: none; flex-direction: column; gap: 20px; }
-        #result-screen.active { display: flex; }
-        .result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); padding-bottom: 15px; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; }
-        .result-header h2 { color: var(--primary); font-size: 1.8em; }
-        .result-summary { background-color: var(--secondary); padding: 20px; border-radius: 10px; border: 2px solid var(--primary); text-align: center; font-size: 1.3em; font-weight: bold; color: var(--primary); }
-        .result-summary .score { font-size: 2em; color: #b71c1c; }
-        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--primary); color: var(--primary); font-weight: bold; }
+#results{
+  display:none;
+  background:#fff;
+  border-radius:14px;
+  padding:22px;
+  margin:20px 0;
+  box-shadow:0 4px 16px rgba(0,0,0,.1);
+  border:2px solid #c8e6c9;
+}
+.score-box{
+  text-align:center;
+  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:18px;
+  border:2px solid #2e7d32;
+}
+.score-box h2{font-size:2.1rem;color:#1b5e20}
+.domain-scores{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:14px 0;
+}
+.domain-item{
+  background:#f1f8e9;
+  padding:10px;
+  border-radius:8px;
+  font-size:.88rem;
+  border-right:3px solid #c62828;
+}
+.corr-item{
+  padding:11px;
+  border-bottom:1px solid #e0e0e0;
+  font-size:.9rem;
+}
+.corr-item.correct{background:#e8f5e9}
+.corr-item.wrong{background:#ffebee}
 
-        @media (max-width: 600px) {
-            .container { padding: 15px; }
-            #home-screen h1 { font-size: 1.6em; }
-            .btn-main { padding: 12px 25px; font-size: 1.1em; min-width: 160px; }
-            .summary-header h2, .qcm-header h2 { font-size: 1.4em; }
-            .score-board { position: static; margin-bottom: 20px; text-align: center; width: 100%; }
-            .timer { font-size: 1.1em; padding: 8px 12px; }
-        }
-    </style>
+.footer{
+  text-align:center;
+  padding:14px;
+  color:#558b2f;
+  font-size:.8rem;
+}
+
+/* شاشة القفل */
+#lockOverlay{
+  display:none;
+  position:fixed;inset:0;
+  background:rgba(27,94,32,.97);
+  z-index:9999;
+  color:#fff;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+#lockOverlay h2{font-size:1.55rem;margin-bottom:12px;color:#ff8a80}
+#lockOverlay p{font-size:1.05rem;max-width:420px;line-height:1.6;margin-bottom:18px}
+#lockTimer{font-size:2.7rem;font-weight:700;letter-spacing:2px;margin:12px 0;color:#ffcc80}
+.lock-note{font-size:.9rem;opacity:.9;margin-top:18px}
+</style>
 </head>
 <body>
 
-    <div id="home-screen" class="container active">
-        <h1>3 اختبارات QCM - 100 سؤال</h1>
-        <h2>إعداد: يحيى طالب عبد الله</h2>
-        <div class="contact">رقم الاتصال والواتساب: 30545727</div>
-        <p style="font-size: 1.2em; color: #555;">توفيق للجميع</p>
-        <div class="btn-group">
-            <button class="btn-main" onclick="showSummary()">📘 عرض الملخص</button>
-            <button class="btn-main" onclick="showExamSelector()">📝 اختر الاختبار</button>
-        </div>
-        <div id="exam-selector" class="exam-selector" style="display: none;">
-            <button class="btn-exam" onclick="startExam(1)">📝 الاختبار الأول (60 سؤالاً)</button>
-            <button class="btn-exam" onclick="startExam(2)">📝 الاختبار الثاني (20 سؤالاً صعباً)</button>
-            <button class="btn-exam" onclick="startExam(3)">📝 الاختبار الثالث (20 سؤالاً صعباً)</button>
-        </div>
+<!-- شاشة القفل -->
+<div id="lockOverlay">
+  <h2>⚠️ تم قفل الصفحة</h2>
+  <p>تم رصد مغادرة الشاشة أو إيقاف الكاميرا لأكثر من 5 ثوانٍ.<br>
+  سيتم خصم <strong>15 دقيقة</strong> من وقت الامتحان (60 دقيقة).</p>
+  <div id="lockTimer">15:00</div>
+  <p class="lock-note">الصفحة ستُفتح تلقائياً بعد انتهاء المدة.<br>لا تغلق هذه النافذة.</p>
+</div>
+
+<!-- معاينة الكاميرا -->
+<div id="cameraBox">
+  <video id="camVideo" autoplay muted playsinline></video>
+  <div class="camera-label">كاميرا المراقبة</div>
+</div>
+
+<div class="header">
+  <h1>اختبار QCM - مسابقة الضرائب موريتانيا 2026</h1>
+  <div class="timer-box" id="examTimer">60:00</div>
+  <div style="font-size:.8rem;margin-top:4px;opacity:.9" id="submitInfo">زر التسليم يُفعّل بعد 30 دقيقة</div>
+</div>
+
+<div class="container" id="quiz"></div>
+
+<div class="btn-box">
+  <button id="submitBtn" onclick="submitQuiz()" disabled>تسليم الأسئلة (يُفعّل بعد 30 دقيقة)</button>
+  <button id="printBtn" onclick="window.print()">طباعة / حفظ PDF</button>
+</div>
+
+<div id="results"></div>
+<div class="footer">محاكاة رسمية • كاميرا + مؤقت 60 دقيقة • الحماية مفعّلة من لحظة الدخول</div>
+
+<script>
+/* ========== الإعدادات ========== */
+const EXAM_MINUTES = 60;
+const SUBMIT_AFTER_MINUTES = 30;
+const AWAY_THRESHOLD = 5;
+const LOCK_MINUTES = 15;
+
+let remainingSeconds = EXAM_MINUTES * 60;
+let elapsedSeconds = 0;
+let examInterval = null;
+let awayStart = null;
+let isLocked = false;
+let lockRemaining = 0;
+let lockInterval = null;
+let cameraStream = null;
+let cameraActive = false;
+
+/* ========== الأسئلة (بدون مستويات ظاهرة) ========== */
+const questions = [
+  {id:1, domain:"الضرائب والقانون الجبائي", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"ما هو معدل ضريبة الشركات (IS) على الربح الخاضع للضريبة في موريتانيا؟",
+   options:["20%","25%","30%","35%"], correct:1,
+   expl:"المعدل 25% من الربح أو 2% من الدخل إذا كان أعلى، مع حد أدنى 100,000 أوقية."},
+  {id:2, domain:"الضرائب والقانون الجبائي", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"ما هو معدل الضريبة على القيمة المضافة (TVA) العادي؟",
+   options:["14%","16%","18%","20%"], correct:1,
+   expl:"المعدل العادي 16%. الاتصالات 18%. الصادرات 0%."},
+  {id:3, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"ما هي عتبة رقم الأعمال للنظام الحقيقي العادي في IBAPP؟",
+   options:["أكثر من 3 ملايين","أكثر من 5 ملايين","أكثر من 10 ملايين","أقل من 3 ملايين"], correct:1,
+   expl:"الحقيقي العادي: > 5 ملايين أوقية."},
+  {id:4, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"معدل ضريبة IBAPP في النظام الحقيقي العادي؟",
+   options:["25% أو 2%","30% أو 2.5%","35%","3% من رقم الأعمال"], correct:1,
+   expl:"30% من الربح أو 2.5% من الدخل، حد أدنى 125,000 أوقية."},
+  {id:5, domain:"الضرائب والقانون الجبائي", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"معدل ضريبة الدخل على الأجور للشريحة > 21,000 أوقية؟",
+   options:["15%","25%","35%","40%"], correct:3,
+   expl:"≤9000 →15%، 9001-21000 →25%، >21000 →40%."},
+  {id:6, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"معدل الضريبة على الدخل من رؤوس الأموال المنقولة (IRCM)؟",
+   options:["5%","10%","15%","20%"], correct:1,
+   expl:"10%."},
+  {id:7, domain:"الضرائب والقانون الجبائي", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"مدة التقادم في المراقبة الضريبية؟",
+   options:["سنتان","ثلاث سنوات","أربع سنوات","خمس سنوات"], correct:1,
+   expl:"ثلاث سنوات."},
+  {id:8, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"معدل الاقتطاع من المصدر على خدمات غير المقيمين؟",
+   options:["2.5%","10%","15%","20%"], correct:2,
+   expl:"15%."},
+  {id:9, domain:"الضرائب والقانون الجبائي", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"معدل ضريبة التمهين؟",
+   options:["0.30%","0.60%","1%","1.5%"], correct:1,
+   expl:"0.60%."},
+  {id:10, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"معدل الضريبة على المعاملات المالية (TOF) في كتيب 2025؟",
+   options:["10%","14%","16%","20%"], correct:1,
+   expl:"14%."},
+  {id:11, domain:"الضرائب والقانون الجبائي", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"نسبة الغرامات الضريبية بعد المراقبة؟",
+   options:["10%-40%","25%-80%","50%-100%","5%-30%"], correct:1,
+   expl:"من 25% إلى 80%."},
+  {id:12, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"متى ينشأ الحدث المولد لـ TVA على الاستيراد؟",
+   options:["عند العقد","عند عبور الخط الجمركي","عند الدفع","عند التسليم"], correct:1,
+   expl:"عند عبور الخط الجمركي."},
+  {id:13, domain:"الضرائب والقانون الجبائي", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"معدل TVA على الاتصالات الهاتفية؟",
+   options:["16%","18%","0%","20%"], correct:1,
+   expl:"18%."},
+  {id:14, domain:"الضرائب والقانون الجبائي", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"الحد الأدنى لضريبة الشركات في النظام الحقيقي؟",
+   options:["50,000","75,000","100,000","125,000"], correct:2,
+   expl:"100,000 أوقية."},
+  {id:15, domain:"الضرائب والقانون الجبائي", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"معدل الاقتطاع على خدمات المقيمين (مهن حرة)؟",
+   options:["2.5%","5%","10%","15%"], correct:0,
+   expl:"2.5%."},
+  {id:16, domain:"الحساب والحالات التطبيقية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"شركة ربحها 8 ملايين ودخلها 450 مليون. ضريبة الشركات؟",
+   options:["2 مليون","9 ملايين","الأعلى بينهما","2 مليون فقط"], correct:1,
+   expl:"25%×8M=2M، 2%×450M=9M → الأعلى 9 ملايين."},
+  {id:17, domain:"الحساب والحالات التطبيقية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"رقم أعمال 4.2 مليون. أي نظام IBAPP؟",
+   options:["الحقيقي العادي","الحقيقي الوسيط","الجزافي","لا يخضع"], correct:1,
+   expl:"بين 3 و5 ملايين → الوسيط."},
+  {id:18, domain:"الحساب والحالات التطبيقية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"راتب شهري 25,000 أوقية. ضريبة الدخل؟",
+   options:["3,750","6,250","10,000","4,000"], correct:2,
+   expl:"40% × 25,000 = 10,000."},
+  {id:19, domain:"الحساب والحالات التطبيقية", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"رقم أعمال 2.5 مليون. معدل IBAPP الجزافي؟",
+   options:["2%","3%","2.5%","30%"], correct:1,
+   expl:"3%."},
+  {id:20, domain:"الحساب والحالات التطبيقية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"استثمار 45 مليون + 12 وظيفة. أي نظام حوافز؟",
+   options:["SME","الفئة الوسيطة","مراكز التنمية","RIS"], correct:1,
+   expl:"30-200 مليون → الفئة الوسيطة."},
+  {id:21, domain:"الحساب والحالات التطبيقية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"نسبة الرسوم الجمركية على المعدات في نظام SME؟",
+   options:["0%","3%","5%","1.5%"], correct:1,
+   expl:"3%."},
+  {id:22, domain:"الحساب والحالات التطبيقية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"استثمار 250 مليون. معدل الرسوم في نظام RIS؟",
+   options:["0%","1.5%","3%","5%"], correct:1,
+   expl:"1.5%."},
+  {id:23, domain:"الحساب والحالات التطبيقية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"سقف ائتمان التكوين في نظام SME؟",
+   options:["100,000","200,000","400,000","800,000"], correct:1,
+   expl:"200,000 أوقية."},
+  {id:24, domain:"الحساب والحالات التطبيقية", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"معدل TVA المخفض في الفئة الوسيطة؟",
+   options:["0%","5%","10%","16%"], correct:2,
+   expl:"10%."},
+  {id:25, domain:"الحساب والحالات التطبيقية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"نسبة الإهلاك المعجل في السنة الأولى (RIS)؟",
+   options:["15%","20%","25%","30%"], correct:2,
+   expl:"25%."},
+  {id:26, domain:"الحساب والحالات التطبيقية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"الحد الأدنى للاستثمار في نظام مراكز التنمية؟",
+   options:["1 مليون","2 مليون","5 ملايين","10 ملايين"], correct:1,
+   expl:"2 مليون أوقية."},
+  {id:27, domain:"الحساب والحالات التطبيقية", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"معدل ضريبة الشركات المخفض في مراكز التنمية؟",
+   options:["10%","15%","20%","25%"], correct:1,
+   expl:"15%."},
+  {id:28, domain:"التحويلات المالية والعملات", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"النسبة الدنيا من عائدات التصدير التي يجب تحويلها خلال يومين؟",
+   options:["50%","60%","70%","100%"], correct:2,
+   expl:"70%."},
+  {id:29, domain:"التحويلات المالية والعملات", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"هل يُسمح بفتح حسابات بالعملة الأجنبية؟",
+   options:["نعم بحرية","لا","فقط بعد موافقة","فقط للأجانب"], correct:0,
+   expl:"نعم."},
+  {id:30, domain:"التحويلات المالية والعملات", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"هل يمكن تلقي عملة أجنبية من مقيم آخر دون ترخيص؟",
+   options:["نعم","لا يحتاج ترخيص BCM","فقط أقل من 10 آلاف","نعم بين الشركات"], correct:1,
+   expl:"يحتاج ترخيصاً مسبقاً من البنك المركزي."},
+  {id:31, domain:"التحويلات المالية والعملات", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"العملات التي يمكن فتح حساب بها عادة؟",
+   options:["الدولار فقط","اليورو فقط","الدولار واليورو وغيرها","الأوقية فقط"], correct:2,
+   expl:"USD وEURO وغيرها."},
+  {id:32, domain:"التحويلات المالية والعملات", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"هل التحويلات للعمليات الجارية حرة؟",
+   options:["نعم","لا","بعد موافقة وزارية","فقط للتصدير"], correct:0,
+   expl:"نعم."},
+  {id:33, domain:"التحويلات المالية والعملات", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"عند فتح اعتماد مستندي، على أي ودائع يُخصم الضمان أولاً؟",
+   options:["الأوقية أولاً","العملات الأجنبية أولاً","بالتساوي","حسب العميل"], correct:1,
+   expl:"من ودائع العملات الأجنبية أولاً."},
+  {id:34, domain:"التحويلات المالية والعملات", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"الوثيقة الأساسية لفتح حساب عملة للشخص الطبيعي؟",
+   options:["شهادة ميلاد","نسخة هوية + عنوان","بطاقة عمل","لا شيء"], correct:1,
+   expl:"نسخة مصدقة من الهوية + إثبات إقامة."},
+  {id:35, domain:"التحويلات المالية والعملات", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"هل يمكن سحب أوراق نقدية أجنبية لأغراض السفر؟",
+   options:["نعم","لا","بموافقة مسبقة","فقط للشركات"], correct:0,
+   expl:"نعم."},
+  {id:36, domain:"التحويلات المالية والعملات", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"مهلة تحويل 70% من عائدات التصدير؟",
+   options:["يوم واحد","يومان عمل","أسبوع","شهر"], correct:1,
+   expl:"خلال يومي عمل."},
+  {id:37, domain:"المحاسبة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"كيف يُحدد الربح الخاضع لضريبة الشركات؟",
+   options:["الميزانية فقط","نتيجة جميع العمليات بما فيها التصرف في الأصول","التدفقات النقدية","رقم الأعمال"], correct:1,
+   expl:"من نتيجة جميع العمليات بما فيها التصرف في الأصول."},
+  {id:38, domain:"المحاسبة", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"تاريخ إيداع الحزم الضريبية عادة؟",
+   options:["31 يناير","28 فبراير","31 مارس","30 يونيو"], correct:2,
+   expl:"31 مارس."},
+  {id:39, domain:"المحاسبة", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"ما المستبعد من حق خصم TVA في التعدين؟",
+   options:["المعدات الصناعية","سيارات الركاب وأجزاؤها","المواد الخام","قطع الغيار"], correct:1,
+   expl:"سيارات الركاب وأجزاؤها."},
+  {id:40, domain:"المحاسبة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"أنواع المراقبة الضريبية الرئيسية؟",
+   options:["وثائقية وميدانية","عشوائية فقط","سنوية فقط","لا توجد"], correct:0,
+   expl:"مراقبة وثائقية + مراقبة في عين المكان."},
+  {id:41, domain:"المحاسبة", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"هل الرسوم السطحية السنوية قابلة للخصم؟",
+   options:["نعم","لا","جزئياً","حسب الاتفاق"], correct:1,
+   expl:"غير قابلة للخصم."},
+  {id:42, domain:"المحاسبة", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"مهلة استرداد TVA في قطاع التعدين؟",
+   options:["30 يوماً","60 يوماً","90 يوماً","120 يوماً"], correct:2,
+   expl:"90 يوماً."},
+  {id:43, domain:"المحاسبة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"مهلة إشعار عدم التعديل بعد المراقبة؟",
+   options:["30 يوماً","45 يوماً","60 يوماً","90 يوماً"], correct:2,
+   expl:"60 يوماً."},
+  {id:44, domain:"المحاسبة", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"مهلة رد المكلف على إشعار التعديل؟",
+   options:["7 أيام","15 يوماً","30 يوماً","60 يوماً"], correct:1,
+   expl:"15 يوماً."},
+  {id:45, domain:"المحاسبة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"مهلة تأكيد الإدارة للتعديلات؟",
+   options:["30 يوماً","45 يوماً","60 يوماً","90 يوماً"], correct:2,
+   expl:"60 يوماً."},
+  {id:46, domain:"الاقتصاد والمالية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"القطاعات المستثناة من مدونة الاستثمار 2025؟",
+   options:["الزراعة","التعدين والمحروقات والهيدروجين + البنوك والتأمين","الصناعة","لا شيء"], correct:1,
+   expl:"التعدين والمحروقات والهيدروجين الأخضر + البنوك والتأمين."},
+  {id:47, domain:"الاقتصاد والمالية", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"الهدف الرئيسي لمدونة الاستثمار 2025؟",
+   options:["زيادة الضرائب","تشجيع الاستثمار المباشر","تقليص الوظائف","تأميم"], correct:1,
+   expl:"تشجيع الاستثمارات المباشرة."},
+  {id:48, domain:"الاقتصاد والمالية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"الحد الأدنى للوظائف في نظام RIS؟",
+   options:["15","30","50","100"], correct:2,
+   expl:"50 وظيفة مباشرة."},
+  {id:49, domain:"الاقتصاد والمالية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"نسبة زيادة الطاقة الإنتاجية لاعتبار العملية امتداداً؟",
+   options:["20%","30%","40%","50%"], correct:2,
+   expl:"40% على الأقل."},
+  {id:50, domain:"الثقافة العامة", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"متى دخلت المدونة العامة للضرائب حيز التنفيذ؟",
+   options:["1 يناير 2019","1 يناير 2020","1 يناير 2021","1 يناير 2025"], correct:1,
+   expl:"1 يناير 2020."},
+  {id:51, domain:"الثقافة العامة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"اللجنة المختصة بالنزاعات ≥30% من رقم الأعمال؟",
+   options:["إدارية","المشتركة","المحكمة","مجلس الدولة"], correct:1,
+   expl:"اللجنة المشتركة."},
+  {id:52, domain:"المنطق والتحليل", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"إذا رفضت الإدارة ملاحظات المكلف؟",
+   options:["يُلغى التعديل","تُؤكد التعديلات خلال 60 يوماً","يُحال للمحكمة","يُخفض 50%"], correct:1,
+   expl:"تأكيد كتابي خلال 60 يوماً."},
+  {id:53, domain:"المنطق والتحليل", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"مهلة الطعن القضائي بعد قرار الإدارة؟",
+   options:["شهر","شهران","3 أشهر","6 أشهر"], correct:1,
+   expl:"شهران."},
+  {id:54, domain:"الاقتصاد والمالية", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"هل التعدين خاضع لمدونة الاستثمار العامة؟",
+   options:["نعم","لا له أنظمة خاصة","جزئياً","فقط الذهب"], correct:1,
+   expl:"له أنظمة جبائية استثنائية خاصة."},
+  {id:55, domain:"الثقافة العامة", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"مدة وقف التحصيل عند الإحالة للجنة المشتركة؟",
+   options:["15 يوماً","30 يوماً","45 يوماً","60 يوماً"], correct:2,
+   expl:"45 يوماً."},
+  {id:56, domain:"المنطق والتحليل", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"الشرط قبل اللجوء للطعن القضائي؟",
+   options:["دفع كامل المبلغ","تقديم طعن إداري أولاً","موافقة الوزير","لا شرط"], correct:1,
+   expl:"يجب الطعن الإداري أولاً."},
+  {id:57, domain:"الاقتصاد والمالية", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"نسبة الرسوم على سيارات الركاب في مرحلة الإنتاج العادي للتعدين؟",
+   options:["0%","5%","10%","16%"], correct:1,
+   expl:"5%."},
+  {id:58, domain:"الثقافة العامة", points:0.25, neg:[-0.15,-0.25,-0.40],
+   q:"اسم مدونة الجمارك الجديدة (مايو 2026)؟",
+   options:["قانون 015-2026","قانون 035-2017","قانون 2019-018","قانون 2025-006"], correct:0,
+   expl:"قانون رقم 015-2026."},
+  {id:59, domain:"المنطق والتحليل", points:0.35, neg:[-0.20,-0.30,-0.50],
+   q:"إذا لم ترد الإدارة خلال 3 أشهر على المطالبة؟",
+   options:["قبول ضمني","رفض ضمني","إحالة","تمديد"], correct:1,
+   expl:"رفض ضمني."},
+  {id:60, domain:"الاقتصاد والمالية", points:0.75, neg:[-0.30,-0.50,-1.00],
+   q:"سقف ائتمان التكوين في نظام RIS؟",
+   options:["200,000","400,000","600,000","800,000"], correct:3,
+   expl:"800,000 أوقية."}
+];
+
+/* ========== بناء الأسئلة ========== */
+const quizDiv = document.getElementById('quiz');
+questions.forEach(q => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `
+    <div class="q-num">السؤال ${q.id}</div>
+    <div class="domain">${q.domain}</div>
+    <div style="font-weight:600;margin-bottom:10px;font-size:.97rem">${q.q}</div>
+    <div class="options">
+      \( {q.options.map((opt,j)=>`<label><input type="radio" name="q \){q.id}" value="${j}"> ${String.fromCharCode(65+j)}) ${opt}</label>`).join('')}
+    </div>`;
+  quizDiv.appendChild(card);
+});
+
+/* ========== الكاميرا ========== */
+async function startCamera() {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 } },
+      audio: false
+    });
+    const video = document.getElementById('camVideo');
+    video.srcObject = cameraStream;
+    cameraActive = true;
+  } catch (err) {
+    console.warn('الكاميرا غير متاحة:', err);
+    cameraActive = false;
+    document.getElementById('cameraBox').innerHTML = '<div style="color:#fff;font-size:.7rem;padding:20px 5px;text-align:center">الكاميرا<br>غير مفعّلة</div>';
+  }
+}
+
+/* ========== المؤقت ========== */
+function updateExamTimer() {
+  const m = Math.floor(remainingSeconds / 60);
+  const s = remainingSeconds % 60;
+  const el = document.getElementById('examTimer');
+  el.textContent = `\( {String(m).padStart(2,'0')}: \){String(s).padStart(2,'0')}`;
+  if (remainingSeconds <= 300) el.classList.add('warning');
+
+  // تفعيل زر التسليم بعد 30 دقيقة
+  if (elapsedSeconds >= SUBMIT_AFTER_MINUTES * 60) {
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = false;
+    btn.textContent = 'تسليم الأسئلة وإظهار النتيجة';
+    document.getElementById('submitInfo').textContent = 'يمكنك التسليم الآن';
+  }
+
+  if (remainingSeconds <= 0) {
+    clearInterval(examInterval);
+    alert('انتهى الوقت! سيتم تسليم الإجابات تلقائياً.');
+    submitQuiz();
+  }
+}
+
+function startExamTimer() {
+  examInterval = setInterval(() => {
+    if (!isLocked) {
+      remainingSeconds--;
+      elapsedSeconds++;
+      updateExamTimer();
+    }
+  }, 1000);
+  updateExamTimer();
+}
+
+/* ========== نظام القفل ========== */
+function startLock() {
+  if (isLocked) return;
+  isLocked = true;
+  lockRemaining = LOCK_MINUTES * 60;
+
+  // خصم 15 دقيقة من الوقت المتبقي
+  remainingSeconds = Math.max(0, remainingSeconds - LOCK_MINUTES * 60);
+  updateExamTimer();
+
+  document.getElementById('lockOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  lockInterval = setInterval(() => {
+    lockRemaining--;
+    const m = Math.floor(lockRemaining / 60);
+    const s = lockRemaining % 60;
+    document.getElementById('lockTimer').textContent = `\( {String(m).padStart(2,'0')}: \){String(s).padStart(2,'0')}`;
+    if (lockRemaining <= 0) {
+      clearInterval(lockInterval);
+      unlockPage();
+    }
+  }, 1000);
+}
+
+function unlockPage() {
+  isLocked = false;
+  document.getElementById('lockOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+  awayStart = null;
+}
+
+/* كشف المغادرة + حالة الكاميرا */
+function checkAway() {
+  const pageHidden = document.hidden || !document.hasFocus();
+  const camProblem = !cameraActive;
+
+  if (pageHidden || camProblem) {
+    if (!awayStart) awayStart = Date.now();
+  } else {
+    if (awayStart) {
+      const awaySec = (Date.now() - awayStart) / 1000;
+      if (awaySec >= AWAY_THRESHOLD && !isLocked) {
+        startLock();
+      }
+      awayStart = null;
+    }
+  }
+}
+
+document.addEventListener('visibilitychange', checkAway);
+window.addEventListener('blur', () => { if (!awayStart) awayStart = Date.now(); });
+window.addEventListener('focus', checkAway);
+
+setInterval(() => {
+  // التحقق من أن تيار الكاميرا لا يزال حياً
+  if (cameraStream) {
+    const tracks = cameraStream.getVideoTracks();
+    cameraActive = tracks.length > 0 && tracks[0].readyState === 'live';
+  }
+  if (awayStart && !isLocked) {
+    const awaySec = (Date.now() - awayStart) / 1000;
+    if (awaySec >= AWAY_THRESHOLD) startLock();
+  }
+}, 1000);
+
+/* ========== التسليم ========== */
+function submitQuiz() {
+  clearInterval(examInterval);
+  let rawScore = 0;
+  let domainScores = {}, domainMax = {};
+  let corrections = [];
+
+  questions.forEach(q => {
+    if (!domainScores[q.domain]) { domainScores[q.domain]=0; domainMax[q.domain]=0; }
+    domainMax[q.domain] += q.points;
+
+    const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+    let qScore = 0, isCorrect = false, chosen = -1;
+
+    if (selected) {
+      chosen = parseInt(selected.value);
+      if (chosen === q.correct) {
+        qScore = q.points;
+        isCorrect = true;
+      } else {
+        const negIdx = Math.min(chosen, q.neg.length-1);
+        qScore = q.neg[negIdx];
+      }
+    } else {
+      qScore = -0.20;
+    }
+    if (qScore < 0) qScore = 0;
+    rawScore += qScore;
+    domainScores[q.domain] += qScore;
+
+    corrections.push({id:q.id, correct:isCorrect, chosen, correctAns:q.options[q.correct], expl:q.expl, score:qScore});
+  });
+
+  const maxPossible = questions.reduce((s,q)=>s+q.points,0);
+  const finalScore = (rawScore / maxPossible) * 20;
+
+  let html = `
+    <div class="score-box">
+      <h2>${finalScore.toFixed(2)} / 20</h2>
+      <p>النتيجة الخام: ${rawScore.toFixed(2)} من ${maxPossible.toFixed(2)}</p>
+      <p style="font-size:.9rem;margin-top:6px">الوقت عند التسليم: ${document.getElementById('examTimer').textContent}</p>
     </div>
+    <h3>تفصيل المجالات</h3>
+    <div class="domain-scores">`;
+  for (let d in domainScores) {
+    const pct = domainMax[d]>0 ? (domainScores[d]/domainMax[d]*100).toFixed(0) : 0;
+    html += `<div class="domain-item"><strong>\( {d}</strong><br> \){domainScores[d].toFixed(2)} / \( {domainMax[d].toFixed(2)} ( \){pct}%)</div>`;
+  }
+  html += `</div><div class="correction"><h3>التصحيح التفصيلي</h3>`;
+  corrections.forEach(c => {
+    html += `<div class="corr-item ${c.correct?'correct':'wrong'}">
+      <strong>س ${c.id}:</strong> \( {c.correct?'✅ صحيح':'❌ خطأ'} ( \){c.score.toFixed(2)})
+      <br>الصحيحة: <strong>${c.correctAns}</strong>
+      <br><small>${c.expl}</small></div>`;
+  });
+  html += `</div>`;
 
-    <div id="summary-screen" class="container">
-        <div class="summary-header">
-            <h2>📘 ملخص الدروس</h2>
-            <button class="btn-back" onclick="goHome()">⬅ العودة للرئيسية</button>
-        </div>
-        <div class="summary-content">
-            <h3>المحور الأول: مبادئ وقواعد التحرير الإداري</h3>
-            <ul>
-                <li>الضوابط الشكلية: الرأسية، الطابع، الرقم التسلسلي، التاريخ، التوقيع.</li>
-                <li>الضوابط القانونية: احترام الإطار القانوني.</li>
-                <li>الضوابط اللغوية: الدقة والوضوح.</li>
-                <li>خصائص الأسلوب الإداري: الموضوعية، الدقة، البساطة، الإيجاز، احترام السلم، المجاملة.</li>
-            </ul>
-            <h3>المحور الثاني: المراسلات الإدارية</h3>
-            <ul>
-                <li>الرسالة الإدارية: وسيلة اتصال كتابية.</li>
-                <li>عناصرها: الرأسية، الطابع، الرقم، التاريخ، الموضوع، المرجع، التوقيع.</li>
-                <li>أنواعها: الإحالة، الأخبار، التذكير.</li>
-            </ul>
-            <h3>المحور الثالث: الإرساليات (جداول الإرسال)</h3>
-            <ul>
-                <li>جدول الإرسال: وثيقة لتحويل ونقل الوثائق.</li>
-                <li>مكوناته: الرأسي، التاريخ، المرسل، المرسل إليه، جدول من 3 أعمدة، التوقيع.</li>
-            </ul>
-            <h3>المحور الرابع: الاستدعاء والدعوة</h3>
-            <ul>
-                <li>الاستدعاء: طلب حضور إلزامي.</li>
-                <li>الدعوة: طلب حضور طوعي.</li>
-                <li>مكوناتهما: الرأسية، الطابع، التاريخ، الصفة، الموضوع، التوقيع.</li>
-            </ul>
-            <h3>المحور الخامس: التقرير الإداري</h3>
-            <ul>
-                <li>أغراضه: تحليل وضعية، إعطاء معلومات، اقتراح حلول.</li>
-                <li>أنواعه: الأمنية، الدورية، الدراسية، التفتيشية، الإبلاغ.</li>
-                <li>خطواته: تحديد الهدف، جمع البيانات، وضع الخطة، الصياغة، المراجعة.</li>
-            </ul>
-            <h3>المحور السادس: المحضر (Le Procès-Verbal)</h3>
-            <ul>
-                <li>أنواعه: الاجتماع، التنصيب، المعاينة.</li>
-                <li>مكوناته: الرأسية، الطابع، العنوان، الحضور، جدول الأعمال، العرض، الخاتمة.</li>
-            </ul>
-            <h3>المحور السابع: عرض الحال (Le Compte Rendu)</h3>
-            <ul>
-                <li>مميزاته: وثيقة إخبارية، يوجه للرئيس، يتيح الإلمام.</li>
-                <li>مكوناته: التقديم، العرض، الخاتمة، التوقيع.</li>
-            </ul>
-            <h3>المحور الثامن: المذكرات الإدارية (Les Notes Administratives)</h3>
-            <ul>
-                <li>أنواعها: مذكرة مصلحة، صياغة، توجيهية.</li>
-                <li>خصائصها: أوامر، توزع لكل معني، موضوع واحد، سرعة وإلزامية.</li>
-            </ul>
-            <h3>المحور التاسع: القرارات والمقررات والمراسيم</h3>
-            <ul>
-                <li>المرسوم: رئيس الجمهورية أو الوزير الأول.</li>
-                <li>المقرر: الوزير أو الوالي أو المدير.</li>
-                <li>العناصر: الرأسية، الطابع، الرقم، العنوان، الصفة، التأشيرات، سرد النصوص.</li>
-            </ul>
-            <h3>المحور العاشر: حقوق وواجبات الموظف</h3>
-            <ul>
-                <li>الحقوق: حرية الرأي، المساواة، النشاط النقابي، التصويت، التقاضي، التكوين، التمثيل.</li>
-                <li>الواجبات: القيام بالمهام، الأخلاق، احترام السلم، المحافظة على المصلحة، الامتناع عن الربح، السر المهني، حفظ الوثائق، الولاء.</li>
-                <li>الوضعيات: الخدمة، الإعارة، خارج الإطار، الاستيداع، الخدمة العسكرية.</li>
-            </ul>
-            <h3>المحور الحادي عشر: المسطرة الجنائية</h3>
-            <ul>
-                <li>شروط العدالة: وضوح القواعد، البساطة، السرعة، حقوق الدفاع.</li>
-                <li>العلوم المساعدة: الطب الشرعي، علم النفس القضائي، علم التحقيق، علم الإجرام.</li>
-                <li>المبادئ: عدالة الإجراءات، الحضورية، المساواة، الفصل بين السلطات، حق الدفاع، البراءة، الشك لصالح المتهم.</li>
-                <li>سقوط الدعوى: الوفاة، التقادم، العفو، إلغاء القانون، حكم نهائي، سحب الشكوى، المصالحة.</li>
-                <li>التقادم: الجنايات 10 سنوات، الجنح 3 سنوات، المخالفات سنة.</li>
-            </ul>
-            <h3>المحور الثاني عشر: الشرطة القضائية والنيابة العامة</h3>
-            <ul>
-                <li>الضباط السامون: المدعون العامون، وكلاء الجمهورية، قضاة التحقيق.</li>
-                <li>مهام الشرطة: التثبت، جمع الأدلة، تلقي الشكاوى، البحوث، تنفيذ الأوامر.</li>
-                <li>خصائص النيابة: جهاز خاص، سلطة رئاسية، وحدة، استقلال، عدم الرد، عدم المسؤولية.</li>
-            </ul>
-            <h3>المحور الثالث عشر: التنظيم القضائي الموريتاني</h3>
-            <ul>
-                <li>المحاكم: المقاطعة، الولاية، التجارية، الشغل، الجنائية، الاستئناف، العليا.</li>
-                <li>محكمة المقاطعة: اختصاص شامل حتى 500.000 أوقية.</li>
-                <li>محكمة الولاية: غرف مدنية، تجارية، إدارية، جزائية.</li>
-                <li>المحكمة التجارية: أوراق تجارية، شركات، عمليات مصرفية، إفلاس، منافسة.</li>
-                <li>محاكم الاستئناف: نواكشوط، نواذيبو، كيفة، ألاك.</li>
-            </ul>
-            <h3>المحور الرابع عشر: الدعوى وشروطها</h3>
-            <ul>
-                <li>الشروط: الأهلية، الصفة، المصلحة.</li>
-                <li>أنواع الدعاوى: عينية، شخصية، مختلطة، أصلية، استعجالية.</li>
-            </ul>
-            <h3>المحور الخامس عشر: طرق تقديم الدعوى</h3>
-            <ul>
-                <li>أمام المقاطعة: عريضة أو تصريح.</li>
-                <li>أمام الولايات والتجارية: عريضة مكتوبة موقعة.</li>
-                <li>في الإدارية: عريضة ضد قرار صريح أو ضمني.</li>
-            </ul>
-            <h3>المحور السادس عشر: التبليغ والاستدعاءات</h3>
-            <ul>
-                <li>التبليغ: إعلام المدعى عليه.</li>
-                <li>البيانات: الأسماء، الموضوع، المحكمة، يوم وساعة الحضور.</li>
-                <li>الوسيلة: كاتب الضبط، العدل المنفذ، البريد، الشرطة.</li>
-            </ul>
-            <h3>المحور السابع عشر: إجراءات درس القضايا والحكم</h3>
-            <ul>
-                <li>الخبرة، معاينة الأماكن، البحوث، تحقيق الخطوط.</li>
-            </ul>
-            <h3>المحور الثامن عشر: الجلسات والحكم</h3>
-            <ul>
-                <li>الجلسات: علنية، حضور الأطراف، سماع الشهود.</li>
-                <li>الحكم: قرار فاصل، بياناته، مدة التحرير 15 يوماً.</li>
-            </ul>
-            <h3>المحور التاسع عشر: الطعون</h3>
-            <ul>
-                <li>الاستئناف، المعارضة، النقض، الطعن لصالح القانون.</li>
-                <li>أجل الاستئناف: 15 يوماً.</li>
-                <li>أجل المعارضة: 15 يوماً.</li>
-            </ul>
-            <h3>المحور العشرون: أحكام عامة</h3>
-            <ul>
-                <li>مبادئ التنظيم القضائي: ازدواجية الدرجات، محكمة عليا، محاكم متخصصة، استقلال القضاء.</li>
-                <li>مهام كاتب الضبط، رئيس المحكمة، النيابة العامة، قاضي التحقيق، قاضي التهيئة، قاضي تنفيذ العقوبات.</li>
-            </ul>
-            <h3>المحور الحادي والعشرون: المسؤولية</h3>
-            <ul>
-                <li>أنواعها: مدنية، جزائية، إدارية، تأديبية.</li>
-                <li>المسؤولية الإدارية: الدولة، الموظف، المرفق العام.</li>
-                <li>أسسها: الخطأ، المخاطرة، الضرر، العلاقة السببية.</li>
-                <li>أنواع الأخطاء: شخصي، مرفقي، مشترك، جسيم.</li>
-            </ul>
-        </div>
-        <div class="footer">
-            <p>تم إعداد هذا الملف لأغراض تعليمية - جميع الحقوق محفوظة &copy; 2026</p>
-        </div>
-    </div>
+  document.getElementById('results').innerHTML = html;
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('printBtn').style.display = 'inline-block';
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+  document.getElementById('submitBtn').disabled = true;
 
-    <div id="qcm-screen" class="container">
-        <div class="qcm-header">
-            <h2 id="qcm-title">📝 اختبار QCM</h2>
-            <div id="timer" class="timer">45:00</div>
-            <button class="btn-back" onclick="goHome()">⬅ العودة للرئيسية</button>
-        </div>
-        <div class="qcm-instructions">
-            <h3>📝 تعليمات الاختبار:</h3>
-            <ul>
-                <li>✅ سؤال بإجابة واحدة: 3 نقاط.</li>
-                <li>✅ سؤال بإجابتين: 1.5 نقطة لكل إجابة.</li>
-                <li>✅ سؤال بثلاث إجابات: 0.5 نقطة لكل إجابة.</li>
-                <li>❌ إجابة خاطئة: خصم 0.75.</li>
-                <li>⏱ المدة: 45 دقيقة.</li>
-            </ul>
-        </div>
-        <div id="score-board" class="score-board">النقاط: 0</div>
-        <form id="quiz-form"></form>
-        <button type="button" id="btn-submit-final" class="btn-submit-final" onclick="submitFinal()">📊 عرض النتيجة النهائية</button>
-    </div>
+  // إيقاف الكاميرا بعد التسليم
+  if (cameraStream) {
+    cameraStream.getTracks().forEach(t => t.stop());
+  }
+}
 
-    <div id="result-screen" class="container">
-        <div class="result-header">
-            <h2>📊 النتيجة النهائية</h2>
-            <button class="btn-back" onclick="goHome()">⬅ العودة للرئيسية</button>
-        </div>
-        <div class="result-summary" id="result-summary"></div>
-        <div id="result-details"></div>
-    </div>
-
-    <script>
-        // ============================================================
-        //  الاختبار الأول: 60 سؤالاً (مزيج من المستويات)
-        // ============================================================
-        const exam1 = [
-            { id: 1, level: "سهل جداً", text: "يعتبر التحرير الإداري المحرك الأساسي للحياة العامة للإدارة والمجتمعات في جميع المجالات، وذلك لأنه:", options: [ { text: "يوثق النشاطات الإدارية", correct: true }, { text: "يضفي الطابع القانوني على الإدارة", correct: true }, { text: "يعتمد على الكتابة فقط", correct: false }, { text: "يعتبر بديلاً عن الاتصال الشفهي", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "يوثق النشاطات الإدارية ويضفي الطابع القانوني على الإدارة." },
-            { id: 2, level: "سهل", text: "من خصائص الأسلوب الإداري:", options: [ { text: "الموضوعية", correct: true }, { text: "الدقة", correct: true }, { text: "البساطة والوضوح", correct: true }, { text: "الإيجاز", correct: true }, { text: "احترام السلم الإداري", correct: true }, { text: "المجاملة", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 6, justification: "جميع الخصائص المذكورة تميز الأسلوب الإداري." },
-            { id: 3, level: "متوسط", text: "الضوابط التي يجب مراعاتها في التحرير الإداري هي:", options: [ { text: "الضوابط الشكلية", correct: true }, { text: "الضوابط القانونية", correct: true }, { text: "الضوابط اللغوية", correct: true }, { text: "الضوابط الاقتصادية", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "الضوابط الشكلية والقانونية واللغوية." },
-            { id: 4, level: "متوسط", text: "يقصد بالضوابط الشكلية في التحرير الإداري:", options: [ { text: "العناصر التي تبرز الصفة الرسمية للوثيقة الإدارية", correct: true }, { text: "اللغة المستخدمة في الوثيقة", correct: false }, { text: "المحتوى القانوني للوثيقة", correct: false }, { text: "الإمضاء والختم", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الضوابط الشكلية تشمل العناصر الرسمية والإمضاء والختم." },
-            { id: 5, level: "صعب", text: "من مميزات الأسلوب الإداري 'الموضوعية' هو:", options: [ { text: "تجنب المؤثرات الشخصية", correct: true }, { text: "عدم الانحياز لأي طرف", correct: true }, { text: "استخدام الصيغ العاطفية", correct: false }, { text: "الاعتماد على الأحكام المسبقة", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الموضوعية تعني تجنب المؤثرات الشخصية وعدم الانحياز." },
-            { id: 6, level: "صعب", text: "'الدقة' في التحرير الإداري تعني:", options: [ { text: "اختيار الألفاظ المناسبة", correct: true }, { text: "تجنب الغموض والتأويل", correct: true }, { text: "الإطالة في الشرح", correct: false }, { text: "استخدام العبارات المجازية", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الدقة تعني اختيار الألفاظ المناسبة وتجنب الغموض." },
-            { id: 7, level: "فخ", text: "'الإيجاز' في التحرير الإداري يعني:", options: [ { text: "التعبير عن الأفكار بأقل الألفاظ", correct: true }, { text: "تجنب الحشو والتطويل", correct: true }, { text: "استخدام عبارات طويلة", correct: false }, { text: "الإكثار من الأمثلة", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الإيجاز يعني التعبير بأقل الألفاظ وتجنب الحشو." },
-            { id: 8, level: "سهل جداً", text: "من مستلزمات التحرير الجيد:", options: [ { text: "التحضير المسبق", correct: true }, { text: "إعداد مخطط للنص", correct: true }, { text: "كتابة المسودة", correct: true }, { text: "مراجعة النص عدة مرات", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المستلزمات ضرورية للتحرير الجيد." },
-            { id: 9, level: "سهل", text: "من علامات الوقف المستخدمة في التحرير الإداري:", options: [ { text: "الفاصلة (،)", correct: true }, { text: "النقطة (.)", correct: true }, { text: "النقطتان (:)", correct: true }, { text: "علامة الاستفهام (؟)", correct: true }, { text: "علامة التعجب (!)", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع علامات الوقف المذكورة تستخدم في التحرير الإداري." },
-            { id: 10, level: "متوسط", text: "المراسلة الإدارية هي:", options: [ { text: "وسيلة اتصال كتابية بين المصالح الإدارية", correct: true }, { text: "أداة لتبادل المعلومات مع الأشخاص الطبيعيين والاعتباريين", correct: true }, { text: "وسيلة اتصال شفهية فقط", correct: false }, { text: "وثيقة قانونية فقط", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "المراسلة الإدارية وسيلة اتصال كتابية وتبادل معلومات." },
-            { id: 11, level: "سهل", text: "من أنواع الرسائل الإدارية:", options: [ { text: "رسالة الإحالة", correct: true }, { text: "رسالة الأخبار", correct: true }, { text: "رسالة التذكير", correct: true }, { text: "رسالة شخصية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه الأنواع من الرسائل الإدارية." },
-            { id: 12, level: "متوسط", text: "من عناصر الرسالة الإدارية:", options: [ { text: "الرأسية (L'ENTETE)", correct: true }, { text: "الطابع (le timbre)", correct: true }, { text: "الرقم التسلسلي", correct: true }, { text: "المكان والتاريخ", correct: true }, { text: "الموضوع", correct: true }, { text: "المرجع", correct: true }, { text: "التوقيع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه العناصر من مكونات الرسالة الإدارية." },
-            { id: 13, level: "صعب", text: "صيغ النداء في الرسالة الإدارية تستخدم للتعبير عن:", options: [ { text: "التقدير والاحترام", correct: true }, { text: "لفت الانتباه", correct: true }, { text: "الرفض", correct: false }, { text: "القبول", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "صيغ النداء تستخدم للتقدير والاحترام ولفت الانتباه." },
-            { id: 14, level: "فخ", text: "من صيغ التقديم في الرسالة الإدارية:", options: [ { text: "'يشرفني'", correct: true }, { text: "'يسعدني'", correct: true }, { text: "'أتشرف'", correct: true }, { text: "'يؤسفني'", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه الصيغ تستخدم في التقديم." },
-            { id: 15, level: "متوسط", text: "من متطلبات التحرير الفعال للرسالة الإدارية:", options: [ { text: "تحديد هدف الاتصال", correct: true }, { text: "تحديد المضمون الأفضل", correct: true }, { text: "معرفة المرسل إليهم", correct: true }, { text: "اختيار الوقت المناسب", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المتطلبات ضرورية للتحرير الفعال." },
-            { id: 16, level: "سهل", text: "جدول الإرسال (Le bordereau d'envoi) هو:", options: [ { text: "وثيقة إدارية لتحويل ونقل الوثائق", correct: true }, { text: "وثيقة لإثبات استلام الوثائق", correct: true }, { text: "وثيقة لطلب معلومات", correct: false }, { text: "وثيقة لتسجيل الاجتماعات", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "جدول الإرسال لتحويل ونقل الوثائق وإثبات الاستلام." },
-            { id: 17, level: "متوسط", text: "من مكونات جدول الإرسال:", options: [ { text: "الرأسي (الشعار، الرقم التسلسلي)", correct: true }, { text: "التاريخ والمكان", correct: true }, { text: "وظيفة المرسل والمرسل إليه", correct: true }, { text: "جدول يتكون من ثلاثة أعمدة", correct: true }, { text: "التوقيع والختم", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه المكونات من عناصر جدول الإرسال." },
-            { id: 18, level: "صعب", text: "العمود الأول في جدول الإرسال يضم:", options: [ { text: "الوثائق المرسلة وتسميتها", correct: true }, { text: "عدد الوثائق", correct: false }, { text: "الملاحظات", correct: false }, { text: "التوجيهات", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "العمود الأول يضم الوثائق المرسلة وتسميتها." },
-            { id: 19, level: "فخ", text: "من الملاحظات التي تذكر في العمود الثالث من جدول الإرسال:", options: [ { text: "'للإبلاغ'", correct: true }, { text: "'من أجل الاطلاع'", correct: true }, { text: "'من أجل التنفيذ'", correct: true }, { text: "'من أجل التوقيع'", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه الملاحظات تذكر في العمود الثالث." },
-            { id: 20, level: "سهل", text: "الاستدعاء هو:", options: [ { text: "طلب حضور شخص معين", correct: true }, { text: "دعوة اختيارية", correct: false }, { text: "وثيقة إلزامية", correct: true }, { text: "وثيقة قانونية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "الاستدعاء طلب حضور شخص معين ووثيقة إلزامية وقانونية." },
-            { id: 21, level: "سهل", text: "الدعوة هي:", options: [ { text: "طلب حضور طوعي", correct: true }, { text: "دعوة اختيارية", correct: true }, { text: "وثيقة إلزامية", correct: false }, { text: "وثيقة غير قانونية", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الدعوة طلب حضور طوعي واختياري." },
-            { id: 22, level: "متوسط", text: "من مكونات الاستدعاء والدعوة:", options: [ { text: "الرأسية", correct: true }, { text: "الطابع الرسمي", correct: true }, { text: "المكان والتاريخ", correct: true }, { text: "صفة المرسل والمرسل إليه", correct: true }, { text: "الموضوع", correct: true }, { text: "التوقيع والختم", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 6, justification: "جميع هذه المكونات من عناصر الاستدعاء والدعوة." },
-            { id: 23, level: "صعب", text: "يجب أن يتضمن الاستدعاء:", options: [ { text: "تحديد الغرض من الاستدعاء", correct: true }, { text: "تاريخ ووقت ومكان الحضور", correct: true }, { text: "الوثائق المطلوبة", correct: true }, { text: "اسم الشخص المستدعى", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه العناصر يجب أن تتضمن في الاستدعاء." },
-            { id: 24, level: "سهل", text: "التقرير الإداري هو:", options: [ { text: "وثيقة إدارية لتسليط الضوء على مشكلة", correct: true }, { text: "وثيقة لعرض عمل تم إنجازه", correct: true }, { text: "وثيقة لسرد وقائع", correct: true }, { text: "وثيقة لاتخاذ قرارات", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه التعريفات صحيحة للتقرير الإداري." },
-            { id: 25, level: "متوسط", text: "من أغراض التقرير الإداري:", options: [ { text: "تحليل وضعية معينة", correct: true }, { text: "إعطاء معلومات دقيقة", correct: true }, { text: "اقتراح الحلول والتوصيات", correct: true }, { text: "إصدار الأحكام", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "التقرير يحلل ويعطي معلومات ويقترح حلولاً لكنه لا يصدر أحكاماً." },
-            { id: 26, level: "سهل", text: "من أنواع التقارير:", options: [ { text: "التقارير الأمنية", correct: true }, { text: "التقارير الدورية للأنشطة", correct: true }, { text: "التقارير الدراسية", correct: true }, { text: "التقارير التفتيشية", correct: true }, { text: "تقارير الإبلاغ", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه الأنواع من التقارير الإدارية." },
-            { id: 27, level: "متوسط", text: "من خطوات كتابة التقرير:", options: [ { text: "تحديد الهدف", correct: true }, { text: "جمع وتحليل البيانات", correct: true }, { text: "وضع الخطة", correct: true }, { text: "صياغة التقرير", correct: true }, { text: "مراجعة النص", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه الخطوات ضرورية لكتابة التقرير." },
-            { id: 28, level: "سهل", text: "من مكونات التقرير:", options: [ { text: "المقدمة", correct: true }, { text: "العرض", correct: true }, { text: "الخاتمة", correct: true }, { text: "التوقيع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المكونات من عناصر التقرير." },
-            { id: 29, level: "متوسط", text: "المحضر هو:", options: [ { text: "وثيقة إدارية حائزة صفة مستند قانوني", correct: true }, { text: "وثيقة لإثبات حادث", correct: true }, { text: "وثيقة لعرض وقائع", correct: true }, { text: "وثيقة لاتخاذ قرارات", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "المحضر وثيقة إدارية قانونية لإثبات حادث وعرض وقائع." },
-            { id: 30, level: "سهل", text: "من أنواع المحاضر:", options: [ { text: "محضر الاجتماع (Le procès-verbal de réunion)", correct: true }, { text: "محضر التنصيب (Le procès-verbal d'installation)", correct: true }, { text: "محضر المعاينة (Le procès-verbal de constat)", correct: true }, { text: "محضر التحقيق", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه الأنواع من المحاضر." },
-            { id: 31, level: "متوسط", text: "من مكونات محضر الاجتماع:", options: [ { text: "الرأسية", correct: true }, { text: "الطابع الرسمي", correct: true }, { text: "العنوان", correct: true }, { text: "أسماء الحضور والغائبين", correct: true }, { text: "جدول الأعمال", correct: true }, { text: "العرض", correct: true }, { text: "الخاتمة", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه المكونات من عناصر محضر الاجتماع." },
-            { id: 32, level: "صعب", text: "من مكونات محضر التنصيب:", options: [ { text: "تاريخ التنصيب", correct: true }, { text: "اسم ووظيفة المشرف على التنصيب", correct: true }, { text: "اسم الموظف أو المنتخب", correct: true }, { text: "تاريخ سريان مفعول التنصيب", correct: true }, { text: "ذكر المستند القانوني", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه المكونات من عناصر محضر التنصيب." },
-            { id: 33, level: "صعب", text: "من مكونات محضر المعاينة:", options: [ { text: "تاريخ ومكان المعاينة", correct: true }, { text: "الاسم والصفة القانونية لمن قام بالمعاينة", correct: true }, { text: "موضوع المعاينة", correct: true }, { text: "صيغة اختتام المحضر", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المكونات من عناصر محضر المعاينة." },
-            { id: 34, level: "سهل", text: "عرض الحال هو:", options: [ { text: "وثيقة إدارية لإعلام الرئيس الإداري", correct: true }, { text: "وثيقة لسرد الأحداث", correct: true }, { text: "وثيقة لاتخاذ قرارات", correct: false }, { text: "وثيقة لإثبات وقائع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "عرض الحال وثيقة إدارية لإعلام الرئيس وسرد الأحداث وإثبات الوقائع." },
-            { id: 35, level: "متوسط", text: "من مميزات عرض الحال:", options: [ { text: "وثيقة إخبارية إعلامية", correct: true }, { text: "يوجه إلى الرئيس الإداري", correct: true }, { text: "يتيح للرئيس الإلمام بالأمور", correct: true }, { text: "يمكن استخدامه كأثر كتابي", correct: true }, { text: "لا يترك أي قضية دون سرد", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه المميزات لعرض الحال." },
-            { id: 36, level: "سهل", text: "من مكونات عرض الحال:", options: [ { text: "التقديم", correct: true }, { text: "العرض", correct: true }, { text: "الخاتمة", correct: true }, { text: "التوقيع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المكونات من عناصر عرض الحال." },
-            { id: 37, level: "صعب", text: "الفرق بين عرض الحال ومحضر الاجتماع:", options: [ { text: "عرض الحال أكثر تفصيلاً", correct: true }, { text: "محضر الاجتماع يركز على المداولات والقرارات", correct: true }, { text: "عرض الحال لا يتضمن مقترحات", correct: true }, { text: "محضر الاجتماع يتضمن توصيات", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "عرض الحال أكثر تفصيلاً، ومحضر الاجتماع يركز على المداولات، وعرض الحال لا يتضمن مقترحات." },
-            { id: 38, level: "متوسط", text: "المذكرة الإدارية هي:", options: [ { text: "وثيقة لإعطاء تعليمات من الرئيس إلى المرؤوسين", correct: true }, { text: "وثيقة لإيصال معلومات", correct: true }, { text: "وثيقة لتوجيه العاملين", correct: true }, { text: "وثيقة لاتخاذ قرارات", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "المذكرة الإدارية لإعطاء التعليمات وإيصال المعلومات وتوجيه العاملين." },
-            { id: 39, level: "صعب", text: "من أنواع المذكرات الإدارية:", options: [ { text: "مذكرة مصلحة (Note de Service)", correct: true }, { text: "مذكرة صياغة (Note de synthèse)", correct: true }, { text: "مذكرة توجيهية (Note d'Orientation)", correct: true }, { text: "مذكرة شخصية", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "الأنواع الرسمية هي مذكرة المصلحة والصياغة والتوجيهية." },
-            { id: 40, level: "متوسط", text: "من خصائص المذكرة الإدارية:", options: [ { text: "تحتوي على أوامر وتعليمات", correct: true }, { text: "توزع بطريقة تسمح لكل معني الاطلاع", correct: true }, { text: "تقتصر على موضوع واحد", correct: true }, { text: "تتميز بسرعة الاتصال والفعالية", correct: true }, { text: "تتميز بالإلزامية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه الخصائص للمذكرة الإدارية." },
-            { id: 41, level: "صعب", text: "من مكونات المذكرة الإدارية:", options: [ { text: "الرأسية", correct: true }, { text: "الطابع الرسمي", correct: true }, { text: "التاريخ والمكان", correct: true }, { text: "الرقم التسلسلي", correct: true }, { text: "عنوان المذكرة وموضوعها", correct: true }, { text: "نص المذكرة", correct: true }, { text: "التوقيع والختم", correct: true }, { text: "التوزيع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 8, justification: "جميع هذه المكونات من عناصر المذكرة الإدارية." },
-            { id: 42, level: "فخ", text: "من قواعد تحرير المذكرة:", options: [ { text: "استخدام أسلوب غير مباشر", correct: true }, { text: "قلة عبارات المجاملة", correct: true }, { text: "استخدام عبارات الصرامة والعقلانية", correct: true }, { text: "الإيجاز وتجنب التطويل", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه القواعد لتحرير المذكرة." },
-            { id: 43, level: "متوسط", text: "القرارات والمقررات والمراسيم هي:", options: [ { text: "نصوص قانونية تتخذ من طرف سلطة إدارية", correct: true }, { text: "نصوص لتنفيذ القوانين والتنظيمات", correct: true }, { text: "تعبير عن إرادة الإدارة الملزمة", correct: true }, { text: "نصوص لإحداث أثر قانوني", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه التعريفات صحيحة." },
-            { id: 44, level: "صعب", text: "من عناصر النصوص القانونية:", options: [ { text: "الرأسية", correct: true }, { text: "الطابع الرسمي", correct: true }, { text: "الرقم التسلسلي", correct: true }, { text: "عنوان النص القانوني وموضوعه", correct: true }, { text: "الصفة والوظيفة", correct: true }, { text: "التأشيرات", correct: true }, { text: "سرد النصوص المرجعية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه العناصر من مكونات النصوص القانونية." },
-            { id: 45, level: "متوسط", text: "المرسوم يصدر عن:", options: [ { text: "رئيس الجمهورية", correct: true }, { text: "الوزير الأول", correct: true }, { text: "الوزراء", correct: true }, { text: "الولاة", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "المرسوم يصدر عن رئيس الجمهورية والوزير الأول والوزراء." },
-            { id: 46, level: "سهل", text: "المقرر يصدر عن:", options: [ { text: "الوزير", correct: true }, { text: "الوالي", correct: true }, { text: "رئيس المجلس", correct: true }, { text: "المدير", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "المقرر يصدر عن جميع هؤلاء المسؤولين." },
-            { id: 47, level: "سهل", text: "من حقوق الموظف:", options: [ { text: "حرية الرأي مع واجب التحفظ", correct: true }, { text: "حق المساواة بين الموظفين", correct: true }, { text: "حق النشاط السياسي والثقافي والنقابي", correct: true }, { text: "حق التصويت", correct: true }, { text: "حق التقاضي", correct: true }, { text: "الحق في التكوين", correct: true }, { text: "حق التمثيل في الهيئات الاستشارية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه الحقوق للموظف." },
-            { id: 48, level: "متوسط", text: "من واجبات الموظف:", options: [ { text: "واجب القيام بالمهام الموكل إليه", correct: true }, { text: "الالتزام بالأخلاق العامة", correct: true }, { text: "احترام السلطة التسلسلية", correct: true }, { text: "المحافظة على سير المصلحة العمومية", correct: true }, { text: "الامتناع عن أي عمل ربحي", correct: true }, { text: "واجب المحافظة على السر المهني", correct: true }, { text: "حفظ الوثائق والمستندات", correct: true }, { text: "واجب الولاء للدولة", correct: true }, { text: "الامتناع عن أي عمل مخالف للقانون", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 9, justification: "جميع هذه الواجبات على الموظف." },
-            { id: 49, level: "متوسط", text: "من الوضعيات المختلفة للموظف:", options: [ { text: "حالة الخدمة", correct: true }, { text: "حالة الإعارة", correct: true }, { text: "خارج الإطار", correct: true }, { text: "الاستيداع", correct: true }, { text: "الخدمة العسكرية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه الوضعيات للموظف." },
-            { id: 50, level: "سهل", text: "من شروط العدالة المعتدلة:", options: [ { text: "وضوح ودقة القواعد الإجرائية", correct: true }, { text: "البساطة في التعبير", correct: true }, { text: "السرعة في إنجاز الإجراءات", correct: true }, { text: "احترام حقوق الدفاع", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه الشروط للعدالة المعتدلة." },
-            { id: 51, level: "سهل", text: "من العلوم المساعدة لقانون المسطرة الجنائية:", options: [ { text: "الطب الشرعي", correct: true }, { text: "علم النفس القضائي", correct: true }, { text: "علم التحقيق الجنائي", correct: true }, { text: "علم الإجرام", correct: true }, { text: "الطب النفسي والعصبي", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه العلوم مساعدة." },
-            { id: 52, level: "متوسط", text: "من مميزات قانون المسطرة الجنائية:", options: [ { text: "قانون شكلي", correct: true }, { text: "قانون مستقل", correct: true }, { text: "العمومية", correct: true }, { text: "الحياد والموضوعية", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 4, justification: "جميع هذه المميزات لقانون المسطرة الجنائية." },
-            { id: 53, level: "صعب", text: "من مبادئ المسطرة الجنائية:", options: [ { text: "مبدأ عدالة الإجراءات", correct: true }, { text: "مبدأ الحضورية", correct: true }, { text: "مبدأ المساواة بين الأطراف", correct: true }, { text: "مبدأ الفصل بين سلطات المتابعة وسلطات الحكم", correct: true }, { text: "مبدأ حق الدفاع", correct: true }, { text: "مبدأ المتهم بريء حتى تثبت إدانته", correct: true }, { text: "مبدأ الشك يفسر لصالح المتهم", correct: true }, { text: "مبدأ عدم الاعتماد على الاعتراف المنتزع بالإكراه", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 8, justification: "جميع هذه المبادئ للمسطرة الجنائية." },
-            { id: 54, level: "صعب", text: "من حالات سقوط الدعوى العمومية:", options: [ { text: "وفاة المتهم", correct: true }, { text: "التقادم", correct: true }, { text: "العفو العام", correct: true }, { text: "إلغاء القانون الجنائي", correct: true }, { text: "صدور حكم حائز لقوة الشيء المقضي به", correct: true }, { text: "سحب الشكوى", correct: true }, { text: "المصالحة أو الاتفاق", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه الحالات تسقط الدعوى العمومية." },
-            { id: 55, level: "متوسط", text: "تتقادم الدعوى العمومية في القضايا الجنائية بمرور:", options: [ { text: "10 سنوات", correct: true }, { text: "15 سنة", correct: false }, { text: "20 سنة", correct: false }, { text: "5 سنوات", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "تتقادم الدعوى العمومية في الجنايات بمرور 10 سنوات." },
-            { id: 56, level: "متوسط", text: "تتقادم الدعوى العمومية في الجنح بمرور:", options: [ { text: "3 سنوات", correct: true }, { text: "5 سنوات", correct: false }, { text: "10 سنوات", correct: false }, { text: "سنة واحدة", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "تتقادم الدعوى العمومية في الجنح بمرور 3 سنوات." },
-            { id: 57, level: "سهل", text: "تتقادم الدعوى العمومية في المخالفات بمرور:", options: [ { text: "سنة واحدة", correct: true }, { text: "3 سنوات", correct: false }, { text: "5 سنوات", correct: false }, { text: "10 سنوات", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "تتقادم الدعوى العمومية في المخالفات بمرور سنة واحدة." },
-            { id: 58, level: "صعب", text: "من الضباط السامون للشرطة القضائية:", options: [ { text: "المدعون العامون لدى محاكم الاستئناف", correct: true }, { text: "وكلاء الجمهورية", correct: true }, { text: "قضاة التحقيق", correct: true }, { text: "ضباط الشرطة القضائية", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 3, justification: "الضباط السامون هم المدعون العامون ووكلاء الجمهورية وقضاة التحقيق." },
-            { id: 59, level: "متوسط", text: "من مهام الشرطة القضائية:", options: [ { text: "التثبت من وقوع الجريمة", correct: true }, { text: "جمع الأدلة", correct: true }, { text: "تلقي الشكاوى والبلاغات", correct: true }, { text: "القيام بالبحوث الابتدائية", correct: true }, { text: "تنفيذ أوامر قضاء التحقيق", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 5, justification: "جميع هذه المهام للشرطة القضائية." },
-            { id: 60, level: "صعب", text: "تتميز النيابة العامة بـ:", options: [ { text: "جهاز قضائي من نوع خاص", correct: true }, { text: "خضوعها للسلطة الرئاسية", correct: true }, { text: "وحدتها", correct: true }, { text: "استقلال قضاة النيابة عن قضاة الحكم", correct: true }, { text: "عدم إمكانية رد قضاة النيابة", correct: true }, { text: "عدم مسؤولية النيابة العامة", correct: true }, { text: "عدم ارتباط النيابة العامة بمطالبها", correct: true } ], type: "multiple", maxPoints: 3, correctCount: 7, justification: "جميع هذه الخصائص للنيابة العامة." }
-        ];
-
-        // ============================================================
-        //  الاختبار الثاني: 20 سؤالاً صعباً جداً وفخّاً (للمسابقات)
-        // ============================================================
-        const exam2 = [
-            { id: 1, level: "فخ", text: "الفرق الدقيق بين 'الاستدعاء' و'الدعوة' في القانون الإداري الموريتاني هو:", options: [ { text: "الاستدعاء إلزامي والدعوة اختيارية", correct: true }, { text: "الاستدعاء شفهي والدعوة كتابية", correct: false }, { text: "الاستدعاء للرؤساء والدعوة للمرؤوسين", correct: false }, { text: "الاستدعاء للقضايا الجزائية والدعوة للمدنية", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الاستدعاء إلزامي (طلب حضور شخص معين)، بينما الدعوة اختيارية (طلب حضور طوعي)." },
-            { id: 2, level: "صعب جداً", text: "في محضر المعاينة، ما هو العنصر الذي لا يمكن الاستغناء عنه قانوناً؟", options: [ { text: "توقيع الطرف المعني", correct: false }, { text: "توقيع الموظف العمومي الذي قام بالمعاينة", correct: true }, { text: "توقيع الشهود", correct: false }, { text: "ختم المحكمة", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "محضر المعاينة يحرره الموظف العمومي المختص ويوقعه هو، ولا يشترط توقيع الطرف المعني أو الشهود لصحته." },
-            { id: 3, level: "فخ", text: "ما هو الفرق الجوهري بين 'التقرير الإداري' و'عرض الحال'؟", options: [ { text: "التقرير يتضمن مقترحات وتوصيات، بينما عرض الحال يقتصر على سرد الوقائع", correct: true }, { text: "التقرير سري وعرض الحال علني", correct: false }, { text: "التقرير يوجه للرئيس وعرض الحال للمرؤوسين", correct: false }, { text: "التقرير شفهي وعرض الحال كتابي", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "التقرير الإداري يتضمن تحليلاً ومقترحات وتوصيات، أما عرض الحال فيقتصر على سرد الوقائع بكل حياد دون إبداء رأي." },
-            { id: 4, level: "صعب جداً", text: "ما هي المدة القانونية لتحرير الحكم بعد النطق به في المسطرة المدنية الموريتانية؟", options: [ { text: "خمسة أيام", correct: false }, { text: "عشرة أيام", correct: false }, { text: "خمسة عشر يوماً", correct: true }, { text: "شهر واحد", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 82 من قانون الإجراءات المدنية أوجبت تحرير الحكم خلال مدة لا تتجاوز 15 يوماً." },
-            { id: 5, level: "فخ", text: "في جدول الإرسال، ما هو العمود الذي يخصص لذكر 'عدد الوثائق المرسلة'؟", options: [ { text: "العمود الأول", correct: false }, { text: "العمود الثاني", correct: true }, { text: "العمود الثالث", correct: false }, { text: "العمود الرابع", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "العمود الأول للوثائق، العمود الثاني للعدد، العمود الثالث للملاحظات." },
-            { id: 6, level: "صعب جداً", text: "من هو الجهة المختصة بتعيين الخبراء في الدعوى المدنية؟", options: [ { text: "النيابة العامة", correct: false }, { text: "الخصوم أنفسهم", correct: false }, { text: "القاضي (رئيس المحكمة أو قاضي التهيئة)", correct: true }, { text: "وزير العدل", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 91 من ق.إ.م.ت.إ. تجيز للقاضي تعيين خبير من تلقاء نفسه أو بطلب من الأطراف." },
-            { id: 7, level: "فخ", text: "ما هو الشرط الأساسي لقبول دعوى الإلغاء أمام القضاء الإداري الموريتاني؟", options: [ { text: "وجود قرار إداري صريح فقط", correct: false }, { text: "وجود قرار إداري صريح أو ضمني", correct: true }, { text: "وجود قرار قضائي", correct: false }, { text: "وجود قرار تشريعي", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 150 ق.إ.م.ت.إ. تشترط عريضة ضد قرار إداري صريح أو ضمني." },
-            { id: 8, level: "صعب جداً", text: "ما هو الأجل القانوني للطعن بالاستئناف في المسطرة المدنية الموريتانية؟", options: [ { text: "عشرة أيام", correct: false }, { text: "خمسة عشر يوماً", correct: true }, { text: "ثلاثون يوماً", correct: false }, { text: "شهران", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 168 جديدة من ق.إ.م.ت.إ. حددت أجل الاستئناف بخمسة عشر يوماً." },
-            { id: 9, level: "فخ", text: "ما هو الفرق بين 'الخطأ الشخصي' و'الخطأ المرفقي' في المسؤولية الإدارية؟", options: [ { text: "الخطأ الشخصي يصدر عن الموظف بصفته الفردية، والخطأ المرفقي يصدر عنه بصفته الوظيفية", correct: true }, { text: "الخطأ الشخصي جسيم والخطأ المرفقي بسيط", correct: false }, { text: "الخطأ الشخصي يتحمل الموظف مسؤوليته، والخطأ المرفقي تتحمل الدولة مسؤوليته", correct: true }, { text: "لا فرق بينهما", correct: false } ], type: "multiple", maxPoints: 3, correctCount: 2, justification: "الخطأ الشخصي: يصدر عن الموظف بصفته الفردية ويتحمل مسؤوليته شخصياً. الخطأ المرفقي: يصدر عنه بصفته الوظيفية وتتحمل الدولة مسؤوليته." },
-            { id: 10, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'النيابة العامة جهاز قضائي من نوع خاص'؟", options: [ { text: "المادة 36 من ق.إ.ج", correct: false }, { text: "المادة 31 من التنظيم القضائي", correct: false }, { text: "المادة 1 من ق.إ.ج", correct: false }, { text: "لم تنص مادة صراحة على ذلك، بل هو استنتاج فقهي", correct: true } ], type: "single", maxPoints: 3, correctCount: 1, justification: "هذه الخاصية مستخلصة من مجموع النصوص القانونية والفقه، وليست منصوصاً عليها صراحة في مادة واحدة." },
-            { id: 11, level: "فخ", text: "في أي حالة يمكن للنيابة العامة أن تحفظ الدعوى العمومية؟", options: [ { text: "إذا رأت أن الأدلة كافية", correct: false }, { text: "إذا رأت أن المتهم بريء", correct: false }, { text: "إذا رأت أن الأدلة غير كافية أو أن مرتكب الجريمة غير معروف أو انقضاء الدعوى بالتقادم", correct: true }, { text: "إذا طلب المتهم ذلك", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "من أهم أسباب حفظ الدعوى العمومية: عدم كفاية الأدلة، عدم معرفة مرتكب الجريمة، انقضاء الدعوى بالتقادم، عدم تلقي الشكاية." },
-            { id: 12, level: "صعب جداً", text: "ما هو الفرق بين 'محضر الاجتماع' و'عرض الحال' من حيث الهدف؟", options: [ { text: "محضر الاجتماع يهدف لتوثيق المداولات والقرارات، وعرض الحال يهدف لإعلام الرئيس بسرد الوقائع", correct: true }, { text: "محضر الاجتماع سري وعرض الحال علني", correct: false }, { text: "محضر الاجتماع يحرره الرئيس وعرض الحال يحرره المرؤوس", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "محضر الاجتماع يركز على المداولات والقرارات المتخذة لتجسيد الجانب القانوني، بينما عرض الحال وثيقة إخبارية لسرد الوقائع بكل حياد." },
-            { id: 13, level: "فخ", text: "ما هي الجهة المختصة بالنظر في الطعون المتعلقة بالوضعية الفردية للموظفين في موريتانيا؟", options: [ { text: "محكمة المقاطعة", correct: false }, { text: "محكمة الولاية (الغرفة الإدارية)", correct: false }, { text: "المحكمة العليا (الغرفة الإدارية)", correct: true }, { text: "المحكمة التجارية", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 28 من ق.إ.م.ت.إ. حددت اختصاص الغرفة الإدارية بالمحكمة العليا في النزاعات المتعلقة بالوضعية الفردية للموظفين." },
-            { id: 14, level: "صعب جداً", text: "ما هو الأجل القانوني للمعارضة في الأحكام الغيابية؟", options: [ { text: "عشرة أيام من تاريخ التبليغ", correct: false }, { text: "خمسة عشر يوماً من تاريخ تبليغ الحكم", correct: true }, { text: "ثلاثون يوماً من تاريخ التبليغ", correct: false }, { text: "خمسة أيام من تاريخ التبليغ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 190 من ق.إ.م.ت.إ. تنص على أن المعارضة في الأحكام الغيابية ترفع في أجل خمسة عشر يوماً من تاريخ تبليغ الحكم." },
-            { id: 15, level: "فخ", text: "ما هو الشرط الذي يجب توفره في المدعى فيه لقبول الدعوى؟", options: [ { text: "أن يكون مشروعاً ومحدداً", correct: true }, { text: "أن يكون مكتوباً", correct: false }, { text: "أن يكون موثقاً", correct: false }, { text: "أن يكون مصدقاً عليه", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 2 من ق.إ.م.ت.إ. تشترط أن يكون للمدعي مصلحة مشروعة، وأن يكون المدعى فيه مشروعاً ومحدداً." },
-            { id: 16, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'المحكمة العليا هي أعلى هيئة قضائية في البلد'؟", options: [ { text: "المادة 11 من التنظيم القضائي", correct: true }, { text: "المادة 19 من التنظيم القضائي", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 1 من الدستور", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 11 من التنظيم القضائي تنص على أن المحكمة العليا هي أعلى هيئة قضائية في البلد." },
-            { id: 17, level: "فخ", text: "ما هو الفرق بين 'الاستئناف' و'الطعن بالنقض'؟", options: [ { text: "الاستئناف يعيد النظر في الوقائع والقانون، والنقض يقتصر على مراجعة تطبيق القانون", correct: true }, { text: "الاستئناف يقدم أمام المحكمة العليا والنقض أمام محكمة الاستئناف", correct: false }, { text: "الاستئناف للإجراءات المدنية والنقض للجزائية", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الاستئناف يعيد النظر في الوقائع والقانون معاً، أما النقض فيقتصر على مراجعة تطبيق القانون دون إعادة النظر في الوقائع." },
-            { id: 18, level: "صعب جداً", text: "ما هي المدة التي يتقادم بها الطعن بالنقض في المادة المدنية؟", options: [ { text: "سنتان", correct: false }, { text: "خمس سنوات", correct: false }, { text: "عشر سنوات", correct: false }, { text: "لا يتقادم", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الطعن بالنقض في المادة المدنية لا يتقادم، ويمكن تقديمه في أي وقت ما لم ينص القانون على خلاف ذلك." },
-            { id: 19, level: "فخ", text: "من هو المختص بتعيين قاضي التحقيق في محكمة الولاية؟", options: [ { text: "وزير العدل", correct: false }, { text: "رئيس محكمة الاستئناف", correct: false }, { text: "رئيس المحكمة العليا", correct: false }, { text: "يتم تعيينه بموجب نص تنظيمي", correct: true } ], type: "single", maxPoints: 3, correctCount: 1, justification: "قاضي التحقيق في محكمة الولاية يتم تعيينه بموجب نص تنظيمي (المادة 43 من التنظيم القضائي)." },
-            { id: 20, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'الدعوى العمومية تتقادم في الجنايات بمرور 10 سنوات'؟", options: [ { text: "المادة 8 من ق.إ.ج", correct: false }, { text: "المادة 9 من ق.إ.ج", correct: false }, { text: "المادة 7 من ق.إ.ج", correct: true }, { text: "المادة 10 من ق.إ.ج", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 7 من قانون الإجراءات الجنائية الموريتاني تحدد تقادم الدعوى العمومية: 10 سنوات في الجنايات، 3 سنوات في الجنح، سنة في المخالفات." }
-        ];
-
-        // ============================================================
-        //  الاختبار الثالث: 20 سؤالاً صعباً جداً وفخّاً (للمسابقات)
-        // ============================================================
-        const exam3 = [
-            { id: 1, level: "فخ", text: "ما هو الفرق الجوهري بين 'المذكرة الإدارية' و'الرسالة الإدارية'؟", options: [ { text: "المذكرة تستخدم أسلوباً غير مباشر وتقل فيها عبارات المجاملة، بينما الرسالة تستخدم أسلوباً مباشراً", correct: true }, { text: "المذكرة سرية والرسالة علنية", correct: false }, { text: "المذكرة موجهة للخارج والرسالة للداخل", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المذكرة الإدارية تتميز باستخدام أسلوب غير مباشر، وقلة عبارات المجاملة، والصرامة، لأنها تعني تعليمات وأوامر." },
-            { id: 2, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'النيابة العامة تقدم طلباتها كتابة وبشكل شفهي'؟", options: [ { text: "المادة 36 من ق.إ.ج", correct: true }, { text: "المادة 31 من التنظيم القضائي", correct: false }, { text: "المادة 1 من ق.إ.ج", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 36 من ق.إ.ج تنص على أن النيابة العامة تقدم طلباتها كتابة وبشكل شفهي، وهي ملزمة بتعليمات مرؤوسيها حيث تقدمها مكتوبة، بينما تقدم بحرية ما تراه مناسباً." },
-            { id: 3, level: "فخ", text: "ما هو الشرط الذي لا يشترط في محضر الاجتماع؟", options: [ { text: "ذكر أسماء الحضور والغائبين", correct: false }, { text: "توقيع جميع الحاضرين", correct: false }, { text: "ختم المحكمة", correct: true }, { text: "ذكر جدول الأعمال", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "محضر الاجتماع لا يشترط ختم المحكمة، فهو وثيقة إدارية وليس قضائية." },
-            { id: 4, level: "صعب جداً", text: "ما هو الفرق بين 'الخبرة' و'معاينة الأماكن'؟", options: [ { text: "الخبرة تعتمد على رأي فني متخصص، بينما المعاينة تعتمد على مشاهدة القاضي المباشرة", correct: true }, { text: "الخبرة في المواد المدنية والمعاينة في المواد الجزائية", correct: false }, { text: "الخبرة يقوم بها الخصوم والمعاينة يقوم بها القاضي", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الخبرة: إجراء يهدف إلى إعطاء معلومات فنية للقاضي من خبير متخصص. معاينة الأماكن: انتقال القاضي بنفسه إلى محل النزاع لمعاينته." },
-            { id: 5, level: "فخ", text: "ما هي المادة التي تنص على أن 'المحكمة العليا محكمة قانون وليست محكمة وقائع'؟", options: [ { text: "المادة 11 من التنظيم القضائي", correct: true }, { text: "المادة 19 من التنظيم القضائي", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 1 من ق.إ.ج", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 11 من التنظيم القضائي تنص على أن 'المحكمة العليا محكمة قانون وليست محكمة وقائع'." },
-            { id: 6, level: "صعب جداً", text: "ما هو الأجل القانوني للطعن بالنقض في المادة الجزائية؟", options: [ { text: "خمسة أيام", correct: false }, { text: "عشرة أيام", correct: false }, { text: "خمسة عشر يوماً", correct: false }, { text: "لا يتقادم", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الطعن بالنقض في المادة الجزائية لا يتقادم، ويمكن تقديمه في أي وقت ما لم ينص القانون على خلاف ذلك." },
-            { id: 7, level: "فخ", text: "ما هو الفرق بين 'القرار' و'المقرر' في القانون الإداري الموريتاني؟", options: [ { text: "القرار يصدر عن سلطة إدارية عليا، والمقرر يصدر عن سلطة إدارية أدنى", correct: false }, { text: "القرار عام والمقرر فردي", correct: false }, { text: "القرار يصدر عن الوزير أو الوالي أو المدير، والمقرر يصدر عن نفس الجهات", correct: true }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "القرار والمقرر كلاهما يصدر عن سلطة إدارية (الوزير، الوالي، المدير)، والفرق بينهما في التسمية حسب الجهة المصدرة." },
-            { id: 8, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'الغرفة الإدارية بمحكمة الولاية تختص بالنظر في النزاعات الإدارية التي ليست من اختصاص المحكمة العليا'؟", options: [ { text: "المادة 25 من ق.إ.م.ت.إ", correct: true }, { text: "المادة 26 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 27 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 25 من ق.إ.م.ت.إ تنص على اختصاص الغرف الإدارية بمحاكم الولايات بالنظر في النزاعات الإدارية التي ليست من اختصاص الغرفة الإدارية بالمحكمة العليا." },
-            { id: 9, level: "فخ", text: "ما هو الشرط الذي لا يشترط في العقد الإداري؟", options: [ { text: "أن يخضع للقانون الإداري", correct: false }, { text: "أن يتضمن شروطاً استثنائية", correct: false }, { text: "أن يهدف إلى تحقيق المصلحة العامة", correct: false }, { text: "أن يكون مكتوباً", correct: true } ], type: "single", maxPoints: 3, correctCount: 1, justification: "العقد الإداري لا يشترط أن يكون مكتوباً، فقد يكون شفهياً في بعض الحالات." },
-            { id: 10, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'المرسوم يصدر عن رئيس الجمهورية أو الوزير الأول'؟", options: [ { text: "المادة 11 من التنظيم القضائي", correct: false }, { text: "المادة 1 من الدستور", correct: false }, { text: "لم تنص مادة صراحة، بل هو مستخلص من النصوص الدستورية", correct: true }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "صلاحية إصدار المراسيم مستخلصة من النصوص الدستورية الموريتانية، وليست منصوصاً عليها في مادة واحدة." },
-            { id: 11, level: "فخ", text: "ما هو الفرق بين 'الخطأ الجسيم' و'الخطأ البسيط' في المسؤولية الإدارية؟", options: [ { text: "الخطأ الجسيم يؤدي إلى مسؤولية الدولة، والخطأ البسيط لا يؤدي إليها", correct: false }, { text: "الخطأ الجسيم يؤدي إلى مسؤولية الموظف الشخصية، والخطأ البسيط يؤدي إلى مسؤولية الدولة", correct: true }, { text: "لا فرق بينهما", correct: false }, { text: "الخطأ الجسيم في المواد الجزائية والخطأ البسيط في المواد المدنية", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الخطأ الجسيم: يؤدي إلى مسؤولية الموظف الشخصية. الخطأ البسيط: يؤدي إلى مسؤولية الدولة (المرفق العام)." },
-            { id: 12, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'المحكمة التجارية تبت في القضايا التجارية دون اعتبار لتحديد قيمتها'؟", options: [ { text: "المادة 27 من ق.إ.م.ت.إ", correct: true }, { text: "المادة 26 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 25 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 27 من ق.إ.م.ت.إ تحدد اختصاص المحاكم التجارية في القضايا التجارية دون اعتبار لتحديد قيمتها." },
-            { id: 13, level: "فخ", text: "ما هو الفرق بين 'التقرير الأمني' و'التقرير الدوري'؟", options: [ { text: "التقرير الأمني سري، والتقرير الدوري علني", correct: true }, { text: "التقرير الأمني شهري، والتقرير الدوري سنوي", correct: false }, { text: "التقرير الأمني يحرره الوزير، والتقرير الدوري يحرره الموظف", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "التقارير الأمنية تتميز بطبيعتها السرية، بينما التقارير الدورية للأنشطة غالباً ما تكون علنية." },
-            { id: 14, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'الطعن بالاستئناف يوقف تنفيذ الحكم'؟", options: [ { text: "المادة 168 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 169 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 170 من ق.إ.م.ت.إ", correct: false }, { text: "لم تنص مادة صراحة، بل هو مبدأ عام", correct: true } ], type: "single", maxPoints: 3, correctCount: 1, justification: "مبدأ وقف تنفيذ الحكم بالاستئناف هو مبدأ عام في القانون، وليس منصوصاً عليه في مادة واحدة." },
-            { id: 15, level: "فخ", text: "ما هو الفرق بين 'الصفة' و'المصلحة' في الدعوى؟", options: [ { text: "الصفة علاقة بالحق، والمصلحة منفعة من الدعوى", correct: true }, { text: "الصفة للأشخاص الطبيعيين والمصلحة للأشخاص الاعتباريين", correct: false }, { text: "الصفة في المواد المدنية والمصلحة في المواد الجزائية", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الصفة: العلاقة التي تربط المتقاضي بالحق المدعى فيه. المصلحة: المنفعة التي تعود على المتقاضي من الدعوى." },
-            { id: 16, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'الدعوى العمومية تتقادم في الجنح بمرور 3 سنوات'؟", options: [ { text: "المادة 7 من ق.إ.ج", correct: true }, { text: "المادة 8 من ق.إ.ج", correct: false }, { text: "المادة 9 من ق.إ.ج", correct: false }, { text: "المادة 10 من ق.إ.ج", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 7 من ق.إ.ج تحدد تقادم الدعوى العمومية: 10 سنوات في الجنايات، 3 سنوات في الجنح، سنة في المخالفات." },
-            { id: 17, level: "فخ", text: "ما هو الفرق بين 'الاستدعاء' و'التبليغ' في المسطرة المدنية؟", options: [ { text: "الاستدعاء إجراء لاستدعاء الأطراف للحضور، والتبليغ إجراء لإعلامهم بالوثائق", correct: true }, { text: "الاستدعاء في المواد الجزائية والتبليغ في المواد المدنية", correct: false }, { text: "الاستدعاء يقوم به القاضي والتبليغ يقوم به كاتب الضبط", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "الاستدعاء: إجراء لاستدعاء الأطراف للحضور أمام المحكمة. التبليغ: إجراء لإعلام الأطراف بالوثائق القضائية." },
-            { id: 18, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'للمحكمة التجارية أن تبت بتشكيلتها القاضي الفرد في الحالات التي يمكن للمحكمة أن تبت فيها حسب المادة 20'؟", options: [ { text: "المادة 27 مكررة من ق.إ.م.ت.إ", correct: true }, { text: "المادة 27 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 26 من ق.إ.م.ت.إ", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 27 مكررة من ق.إ.م.ت.إ تنص على أن 'للمحكمة التجارية أن تبت بتشكيلتها القاضي الفرد في الحالات التي يمكن للمحكمة أن تبت فيها حسب المادة 20'." },
-            { id: 19, level: "فخ", text: "ما هو الفرق بين 'المرسوم' و'المقرر'؟", options: [ { text: "المرسوم يصدر عن رئيس الجمهورية أو الوزير الأول، والمقرر يصدر عن الوزير أو الوالي أو المدير", correct: true }, { text: "المرسوم عام والمقرر فردي", correct: false }, { text: "المرسوم في المواد المدنية والمقرر في المواد الجزائية", correct: false }, { text: "لا فرق بينهما", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المرسوم: يصدر عن رئيس الجمهورية أو الوزير الأول. المقرر: يصدر عن الوزير أو الوالي أو المدير." },
-            { id: 20, level: "صعب جداً", text: "ما هي المادة التي تنص على أن 'النيابة العامة تمارس الدعوى العمومية بمختلف الأساليب القانونية المتاحة'؟", options: [ { text: "المادة 36 من ق.إ.ج", correct: true }, { text: "المادة 31 من التنظيم القضائي", correct: false }, { text: "المادة 1 من ق.إ.ج", correct: false }, { text: "المادة 28 من ق.إ.م.ت.إ", correct: false } ], type: "single", maxPoints: 3, correctCount: 1, justification: "المادة 36 من ق.إ.ج تنص على أن النيابة العامة تمارس الدعوى العمومية بمختلف الأساليب القانونية المتاحة." }
-        ];
-
-        // ============================================================
-        //  المتغيرات العامة
-        // ============================================================
-        let currentExam = 1;
-        let questions = [];
-        let totalScore = 0;
-        const questionPoints = {};
-        let timerInterval = null;
-        let timeLeft = 45 * 60;
-        let quizFinished = false;
-
-        // ============================================================
-        //  التنقل
-        // ============================================================
-        function showSummary() {
-            document.getElementById('home-screen').classList.remove('active');
-            document.getElementById('qcm-screen').classList.remove('active');
-            document.getElementById('result-screen').classList.remove('active');
-            document.getElementById('summary-screen').classList.add('active');
-        }
-
-        function showExamSelector() {
-            const s = document.getElementById('exam-selector');
-            s.style.display = (s.style.display === 'none') ? 'flex' : 'none';
-        }
-
-        function startExam(examNumber) {
-            currentExam = examNumber;
-            if (examNumber === 1) questions = exam1;
-            else if (examNumber === 2) questions = exam2;
-            else questions = exam3;
-
-            document.getElementById('qcm-title').textContent = `📝 الاختبار ${examNumber}`;
-            document.getElementById('home-screen').classList.remove('active');
-            document.getElementById('summary-screen').classList.remove('active');
-            document.getElementById('result-screen').classList.remove('active');
-            document.getElementById('qcm-screen').classList.add('active');
-            document.getElementById('score-board').classList.add('active');
-            document.getElementById('exam-selector').style.display = 'none';
-
-            totalScore = 0;
-            timeLeft = 45 * 60;
-            quizFinished = false;
-            for (let k in questionPoints) delete questionPoints[k];
-            updateScoreBoard();
-            renderQuestions();
-            startTimer();
-        }
-
-        function goHome() {
-            clearInterval(timerInterval);
-            document.getElementById('summary-screen').classList.remove('active');
-            document.getElementById('qcm-screen').classList.remove('active');
-            document.getElementById('result-screen').classList.remove('active');
-            document.getElementById('home-screen').classList.add('active');
-            document.getElementById('score-board').classList.remove('active');
-            document.getElementById('exam-selector').style.display = 'none';
-        }
-
-        // ============================================================
-        //  العرض
-        // ============================================================
-        function getLevelClass(level) {
-            const map = {
-                'سهل جداً': 'level-tres-facile',
-                'سهل': 'level-facile',
-                'متوسط': 'level-moyen',
-                'صعب': 'level-difficile',
-                'صعب جداً': 'level-tres-difficile',
-                'فخ': 'level-piege'
-            };
-            return map[level] || 'level-moyen';
-        }
-
-        function renderQuestions() {
-            const form = document.getElementById('quiz-form');
-            form.innerHTML = '';
-            const partSize = 20;
-            const totalParts = Math.ceil(questions.length / partSize);
-            for (let p = 0; p < totalParts; p++) {
-                const start = p * partSize;
-                const end = Math.min(start + partSize, questions.length);
-                const partQuestions = questions.slice(start, end);
-                if (partQuestions.length === 0) continue;
-                const pt = document.createElement('div');
-                pt.className = 'part-title';
-                pt.textContent = `الجزء ${p + 1}: الأسئلة من ${start + 1} إلى ${end}`;
-                form.appendChild(pt);
-                partQuestions.forEach(q => {
-                    const block = document.createElement('div');
-                    block.className = 'question-block';
-                    block.id = `q${q.id}`;
-                    const header = document.createElement('div');
-                    header.className = 'question-header';
-                    const qt = document.createElement('div');
-                    qt.className = 'question-text';
-                    qt.textContent = `${q.id}. ${q.text}`;
-                    header.appendChild(qt);
-                    const badge = document.createElement('span');
-                    badge.className = `level-badge ${getLevelClass(q.level)}`;
-                    badge.textContent = q.level;
-                    header.appendChild(badge);
-                    block.appendChild(header);
-                    const typeInfo = document.createElement('div');
-                    typeInfo.style.cssText = 'font-size: 0.85em; color: #666; margin-bottom: 8px;';
-                    typeInfo.textContent = q.type === 'single' ? '🔘 إجابة واحدة صحيحة' : '☑️ إجابات متعددة صحيحة';
-                    block.appendChild(typeInfo);
-                    const od = document.createElement('div');
-                    od.className = 'options';
-                    q.options.forEach((opt, i) => {
-                        const odiv = document.createElement('div');
-                        odiv.className = 'option';
-                        const inp = document.createElement('input');
-                        inp.type = q.type === 'single' ? 'radio' : 'checkbox';
-                        inp.name = `q${q.id}`;
-                        inp.value = i;
-                        inp.id = `q${q.id}_opt${i}`;
-                        inp.dataset.correct = opt.correct;
-                        const lbl = document.createElement('label');
-                        lbl.htmlFor = `q${q.id}_opt${i}`;
-                        lbl.textContent = opt.text;
-                        odiv.appendChild(inp);
-                        odiv.appendChild(lbl);
-                        od.appendChild(odiv);
-                    });
-                    block.appendChild(od);
-                    const rd = document.createElement('div');
-                    rd.className = 'result';
-                    rd.id = `result_q${q.id}`;
-                    block.appendChild(rd);
-                    form.appendChild(block);
-                });
-            }
-        }
-
-        // ============================================================
-        //  المؤقت
-        // ============================================================
-        function startTimer() {
-            const t = document.getElementById('timer');
-            t.textContent = '45:00';
-            t.classList.remove('warning');
-            timerInterval = setInterval(() => {
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    t.textContent = '00:00';
-                    t.classList.add('warning');
-                    finishQuiz();
-                    return;
-                }
-                timeLeft--;
-                const m = Math.floor(timeLeft / 60);
-                const s = timeLeft % 60;
-                t.textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                if (timeLeft <= 5 * 60) t.classList.add('warning');
-            }, 1000);
-        }
-
-        // ============================================================
-        //  إنهاء الاختبار
-        // ============================================================
-        function finishQuiz() {
-            if (quizFinished) return;
-            quizFinished = true;
-            clearInterval(timerInterval);
-            document.querySelectorAll('#quiz-form input').forEach(i => i.disabled = true);
-            let total = 0;
-            questions.forEach(q => {
-                const block = document.getElementById(`q${q.id}`);
-                const inputs = block.querySelectorAll('input');
-                let cs = 0, is = 0;
-                inputs.forEach(i => {
-                    if (i.checked) { if (i.dataset.correct === 'true') cs++; else is++; }
-                });
-                let pts = 0;
-                if (is > 0) pts = -0.75 * is;
-                else {
-                    if (q.type === 'single') { if (cs === 1) pts = q.maxPoints; }
-                    else {
-                        if (q.correctCount === 2) pts = cs * 1.5;
-                        else if (q.correctCount === 3) pts = cs * 0.5;
-                        else pts = (cs / q.correctCount) * q.maxPoints;
-                    }
-                }
-                total += pts;
-                inputs.forEach(i => {
-                    const o = i.closest('.option');
-                    if (i.dataset.correct === 'true') o.classList.add('correct-highlight');
-                    else if (i.checked) o.classList.add('incorrect-highlight');
-                });
-                const rd = document.getElementById(`result_q${q.id}`);
-                rd.style.display = 'block';
-                rd.className = 'result';
-                if (pts > 0) {
-                    rd.classList.add('correct');
-                    rd.innerHTML = `✅ إجابة صحيحة! ${pts.toFixed(2)} نقطة.<div class="justification">💡 ${q.justification}</div>`;
-                } else if (pts === 0) {
-                    rd.style.backgroundColor = '#fff9c4';
-                    rd.style.color = '#333';
-                    rd.innerHTML = `⚠️ لا نقاط.<div class="justification">💡 ${q.justification}</div>`;
-                } else {
-                    rd.classList.add('incorrect');
-                    rd.innerHTML = `❌ خاطئة! خصم ${Math.abs(pts).toFixed(2)}.<div class="justification">💡 ${q.justification}</div>`;
-                }
-            });
-            totalScore = total;
-            updateScoreBoard();
-            showResultScreen();
-        }
-
-        function submitFinal() {
-            if (quizFinished) return;
-            if (confirm('هل أنت متأكد من إنهاء الاختبار؟')) finishQuiz();
-        }
-
-        // ============================================================
-        //  النتيجة
-        // ============================================================
-        function showResultScreen() {
-            document.getElementById('qcm-screen').classList.remove('active');
-            document.getElementById('result-screen').classList.add('active');
-            const rs = document.getElementById('result-summary');
-            let msg = totalScore >= 150 ? '🌟 ممتاز!' : totalScore >= 100 ? '👍 جيد جداً.' : totalScore >= 50 ? '📖 مقبول.' : '📚 يحتاج دراسة.';
-            rs.innerHTML = `<div>النتيجة النهائية - الاختبار ${currentExam}</div><div class="score">${totalScore.toFixed(2)} نقطة</div><div>${msg}</div>`;
-            const dd = document.getElementById('result-details');
-            dd.innerHTML = '<h3 style="color: var(--primary); margin-bottom: 15px;">📋 تفاصيل الإجابات:</h3>';
-            questions.forEach(q => {
-                const block = document.getElementById(`q${q.id}`);
-                const inputs = block.querySelectorAll('input');
-                let cs = 0, is = 0, st = [], ct = [];
-                inputs.forEach(i => {
-                    if (i.checked) { st.push(i.nextElementSibling.textContent); if (i.dataset.correct === 'true') cs++; else is++; }
-                    if (i.dataset.correct === 'true') ct.push(i.nextElementSibling.textContent);
-                });
-                let pts = 0;
-                if (is > 0) pts = -0.75 * is;
-                else {
-                    if (q.type === 'single') { if (cs === 1) pts = q.maxPoints; }
-                    else {
-                        if (q.correctCount === 2) pts = cs * 1.5;
-                        else if (q.correctCount === 3) pts = cs * 0.5;
-                        else pts = (cs / q.correctCount) * q.maxPoints;
-                    }
-                }
-                const item = document.createElement('div');
-                item.style.cssText = 'background:#f9f9f9;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:10px;';
-                item.innerHTML = `<div style="font-weight:bold;color:var(--primary);margin-bottom:5px;">${q.id}. ${q.text} <span class="level-badge ${getLevelClass(q.level)}">${q.level}</span></div>
-                    <div style="font-size:0.95em;margin-bottom:5px;">إجابتك: <span style="color:${pts>0?'green':'red'};">${st.join(' | ')||'لم تجب'}</span></div>
-                    <div style="font-size:0.95em;margin-bottom:5px;">الصحيحة: <span style="color:green;">${ct.join(' | ')}</span></div>
-                    <div style="font-size:0.9em;color:#555;">النقاط: ${pts.toFixed(2)}</div>
-                    <div class="justification" style="margin-top:5px;">💡 ${q.justification}</div>`;
-                dd.appendChild(item);
-            });
-        }
-
-        function updateScoreBoard() {
-            const sb = document.getElementById('score-board');
-            sb.style.display = 'block';
-            sb.textContent = `النقاط: ${totalScore.toFixed(2)}`;
-        }
-    </script>
+/* ========== التشغيل ========== */
+startCamera();
+startExamTimer();
+</script>
 </body>
-</html>
+    </html>
